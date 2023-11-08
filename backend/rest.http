@@ -1,0 +1,28 @@
+POST http://localhost:4004/auth/login
+Content-Type: application/json
+
+{
+    "email": "marktwin22@gmail.com",
+    "password": "21222324"
+}
+
+###
+POST http://localhost:4004/auth/register
+Content-Type: application/json
+
+{
+    "username": "mark",
+    "fullname": "Mark Twen",
+    "email": "marktwin222@gmail.com",
+    "password": "21222324"
+}
+###
+Get http://localhost:4004/users
+
+###
+POST http://localhost:4004/tweets/create
+Content-Type: application/json
+
+{
+    "caption": "test teststts"
+}
