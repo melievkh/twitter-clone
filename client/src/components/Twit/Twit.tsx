@@ -24,8 +24,14 @@ const Tweet = (props: ITweetProps) => {
   const { month, day } = useShowDate(created_at);
 
   const handleDelete = async (id: any) => {
-    await dispatch(AsyncThunks.deleteTweet(id));
-    toast.success("Deleted successfully!");
+    try {
+      await dispatch(AsyncThunks.deleteTweet(id));
+
+      toast.success("Deleted successfully!");
+      window.location.reload();
+    } catch (error: any) {
+      toast.error(error.message);
+    }
   };
 
   return (

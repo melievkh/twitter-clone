@@ -10,8 +10,8 @@ import ChatRoom from "components/ChatRoom";
 import ProfilePage from "pages/ProfilePage/ProfilePage";
 import UserDetailsPage from "pages/UserDetailsPage";
 import NotificationsPage from "pages/NotificationsPage/NotificationsPage";
-import Login from "components/Auth/Login";
-import SignUp from "components/Auth/Register";
+import Login from "components/Auth/Login/Login";
+import SignUp from "components/Auth/Register/Register";
 
 // ... (import statements)
 

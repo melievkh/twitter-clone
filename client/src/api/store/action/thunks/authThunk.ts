@@ -19,6 +19,7 @@ export const registerUserThunk: AsyncThunkPayloadCreator<
 
     return response.data;
   } catch (error: any) {
+    console.log(error);
     return rejectWithValue(error.response.data);
   }
 };

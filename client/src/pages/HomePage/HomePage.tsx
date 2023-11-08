@@ -7,7 +7,7 @@ import Header from "components/Layout/Header";
 import Tweet from "components/Twit/Twit";
 import useAuth from "hooks/useAuth";
 import useGetTweets from "hooks/useGetTwits";
-import { getTweetError } from "api/store/selectors";
+import { getUserError } from "api/store/selectors";
 import ROUTES from "router/routes";
 import ITweetProps from "types";
 import { toast } from "react-toastify";
@@ -16,16 +16,15 @@ const HomePage = () => {
   const tweets = useGetTweets();
   const navigate = useNavigate();
   const { logoutUser } = useAuth();
-  const tweetsError = useSelector(getTweetError);
-  console.log(tweetsError);
+  const authError = useSelector(getUserError);
 
   useEffect(() => {
-    if (tweetsError?.statusCode === 401) {
-      toast.error(tweetsError.message);
+    if (authError?.message === "Unauthorized") {
+      toast.error(authError.message);
       logoutUser();
       navigate(ROUTES.LOGIN);
     }
-  }, [tweetsError, logoutUser, navigate]);
+  }, [authError, logoutUser, navigate]);
 
   return (
     <div className='w-full h-full'>

@@ -21,30 +21,30 @@ const ChatRoom = () => {
   const user = useGetUserById(user_id);
   const [messages, setMessages] = useState<IMessagesType[]>([]);
   const [newMessage, setNewMessage] = useState<string>("");
-  const socket = io("http://localhost:4000");
+
+  const socket = io("http://localhost:4001");
 
   useEffect(() => {
-    socket.emit("join", senderId);
-    socket.on("privateMessage", ({ senderId, message }: IMessagesType) => {
-      setMessages((prevMessages: any[]) => [
-        ...prevMessages,
-        `${senderId}: ${message}`,
-      ]);
+    socket.on("message", (message: IMessagesType) => {
+      setMessages((prevMessages) => [...prevMessages, message]);
     });
 
     return () => {
-      socket.emit("leave", senderId);
+      socket.disconnect();
     };
-  }, [senderId, socket]);
-
-  console.log(messages);
+  }, []);
 
   const sendPrivateMessage = () => {
-    socket.emit("privateMessage", {
-      recipientId: user_id,
-      message: newMessage,
-    });
-    setNewMessage("");
+    if (newMessage.trim() !== "") {
+      const messageData = {
+        senderId,
+        message: newMessage,
+        created_at: new Date().toISOString(),
+      };
+      socket.emit("privateMessage", { recipientId: user_id, messageData });
+      setMessages((prevMessages) => [...prevMessages, messageData]);
+      setNewMessage("");
+    }
   };
 
   return (
@@ -55,7 +55,9 @@ const ChatRoom = () => {
       </header>
 
       <ul className='p-2'>
-        <Message />
+        {messages.map((message, index) => (
+          <Message key={index} message={message} />
+        ))}
       </ul>
 
       <footer className='w-full h-[10%] border-t border-t-[#c2c2c2] flex justify-center items-center gap-2'>
@@ -63,6 +65,8 @@ const ChatRoom = () => {
           type='text'
           placeholder='type your message...'
           className='w-[70%] h-10 text-sm indent-2 rounded-2xl border focus:border-[#acb3f0] outline-none'
+          value={newMessage}
+          onChange={(e) => setNewMessage(e.target.value)}
         />
 
         <button className='w-[40px] h-[40px] hover:bg-[#ddd] flex justify-center items-center rounded-full'>

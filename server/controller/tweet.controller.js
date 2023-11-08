@@ -12,8 +12,9 @@ const getTweets = async (req, res) => {
 
 const createTweet = async (req, res) => {
   try {
+    const { userId } = req;
     const { caption } = req.body;
-    const userId = req.userId;
+    console.log(caption, "caption");
     await db.createTweet(caption, userId);
     res.status(201).json({ message: "created tweet successfully!" });
   } catch (error) {

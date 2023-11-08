@@ -48,4 +48,16 @@ const register = async (req, res) => {
   }
 };
 
-module.exports = { login, register };
+const refresh = async (req, res) => {
+  try {
+    const { userId } = req;
+    const accessToken = await signAccessToken(userId);
+    const refreshToken = await signRefreshToken(userId);
+
+    res.status(200).json({ accessToken, refreshToken, userId });
+  } catch (error) {
+    errorHandler(error, req, res);
+  }
+};
+
+module.exports = { login, register, refresh };

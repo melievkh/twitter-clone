@@ -2,7 +2,6 @@ import { AsyncThunkPayloadCreator } from "@reduxjs/toolkit";
 
 import axiosInstance from "api/axios/axiosInstances";
 import endpoints from "api/axios/endpoints";
-import { RootState } from "api/store/reducers";
 import { ErrorResponseType } from "types";
 
 export const getTweetsThunk: AsyncThunkPayloadCreator<
@@ -21,14 +20,16 @@ export const getTweetsThunk: AsyncThunkPayloadCreator<
 export const createTweetThunk: AsyncThunkPayloadCreator<
   any,
   string,
-  { rejectValue: ErrorResponseType; state: RootState }
+  { rejectValue: ErrorResponseType }
 > = async (caption, { rejectWithValue }) => {
   try {
-    const response = await axiosInstance.post(endpoints.tweets.create, caption);
+    const response = await axiosInstance.post(endpoints.tweets.create, {
+      caption,
+    });
 
     return response.data;
   } catch (error: any) {
-    return rejectWithValue(error.response.data);
+    return rejectWithValue(error?.response.data);
   }
 };
 

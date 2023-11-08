@@ -1,32 +1,53 @@
-const { createServer } = require("http");
-const { Server } = require("socket.io");
+const express = require("express");
+const http = require("http");
+const cors = require("cors");
+const socketIo = require("socket.io");
+const kafka = require("kafka-node");
 
-const server = createServer();
-const io = new Server(server, {
-  cors: {
-    origin: "http://localhost:3000",
-    credentials: true,
-  },
+const app = express();
+app.use(cors());
+const server = http.createServer(app);
+const io = socketIo(server);
+
+const kafkaClient = new kafka.KafkaClient({ kafkaHost: "localhost:9092" });
+const producer = new kafka.Producer(kafkaClient);
+
+producer.on("ready", () => {
+  console.log("Kafka producer is ready");
+});
+
+producer.on("error", (err) => {
+  console.error("Error with Kafka producer:", err);
 });
 
 io.on("connection", (socket) => {
-  console.log("A user connected");
+  console.log("Socket connected:", socket.id);
 
-  socket.on("join", (userId) => {
-    socket.join(userId);
-  });
-
-  socket.on("privateMessage", ({ recipientId, message }) => {
-    io.to(recipientId).emit("privateMessage", { senderId: socket.id, message });
+  socket.on("message", (data) => {
+    producer.send(
+      [
+        {
+          topic: "chat-topic",
+          messages: JSON.stringify(data),
+        },
+      ],
+      (err, data) => {
+        if (err) {
+          console.error("Error sending message to Kafka:", err);
+        } else {
+          console.log("Message sent to Kafka:", data);
+        }
+      }
+    );
   });
 
   socket.on("disconnect", () => {
-    console.log("A user disconnected");
+    console.log("Socket disconnected:", socket.id);
   });
 });
 
-const SOCKET_PORT = process.env.SOCKET_PORT | 4001;
+const sockerPort = 4001;
 
-server.listen(SOCKET_PORT, () => {
-  console.log(`Socket server is running on port ${SOCKET_PORT}`);
+server.listen(sockerPort, () => {
+  console.log(`Socket.io server listening on port ${sockerPort}`);
 });

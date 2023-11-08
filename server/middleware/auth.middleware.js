@@ -1,23 +1,29 @@
 const jwt = require("jsonwebtoken");
 require("dotenv").config();
 
-const { errorHandler } = require("../error");
+const { errorHandler, CustomError } = require("../error");
 
-module.exports.authentication = (req, res, next) => {
+module.exports.verifyAccessToken = (req, res, next) => {
   try {
-    const token = req.headers.authorization.split(" ")[1];
-    const secret_key = process.env.ACCESS_TOKEN_KEY;
-    const { aud } = jwt.verify(token, secret_key);
-    req.userId = aud;
-    next();
+    const authHeader = req.headers["authorization"];
+    if (!authHeader) throw new CustomError("Unauthorized", 401);
+
+    const bareerToken = authHeader.split(" ");
+    const token = bareerToken[1];
+    jwt.verify(token, process.env.ACCESS_TOKEN_KEY, (err, payload) => {
+      if (err) {
+        const errMessage =
+          err.name === "JsonWebTokenError" ? "Unauthorized" : err.message;
+        throw new CustomError(
+          errMessage,
+          errMessage === "Unauthorized" ? 401 : 500
+        );
+      }
+
+      req.userId = payload.userId;
+      next();
+    });
   } catch (error) {
-    if (error.name === "JsonWebTokenError") {
-      let jwtError = {
-        message: "Unauthorized!",
-        statusCode: 401,
-      };
-      errorHandler(jwtError, req, res);
-    }
-    errorHandler({ message: "You should login again!", status: 401 }, req, res);
+    errorHandler(error, req, res);
   }
 };

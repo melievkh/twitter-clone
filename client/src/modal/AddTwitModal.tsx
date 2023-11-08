@@ -10,31 +10,33 @@ import { GrGallery } from "react-icons/gr";
 import CustomButton from "components/CustomButton";
 import { AsyncThunks } from "api/store/action";
 import { useAppDispatch } from "api/store";
-import { useSelector } from "react-redux";
-import { getTweetError } from "api/store/selectors";
 import { tweetsActions } from "api/store/reducers/slices/tweetsReducer";
 
 export const AddTweetModal = () => {
   const [showModal, setShowModal] = useState<boolean>(false);
   const [caption, setCaption] = useState<string>("");
   const dispatch = useAppDispatch();
-  const tweetError = useSelector(getTweetError);
-  console.log(tweetError);
 
   const handleChange = (e: any) => {
     setCaption(e.target.value);
   };
 
   const handleAddPost = async (e: any) => {
-    e.preventDefault();
-    if (tweetError) {
-      toast.error(tweetError?.message);
-      dispatch(tweetsActions.clearError());
-    } else {
+    try {
+      if (!caption) {
+        e.preventDefault();
+        toast.error("Please enter a caption");
+        return;
+      }
+
       await dispatch(AsyncThunks.createTweet(caption));
       toast.success("Created successfully!");
       setCaption("");
       setShowModal(false);
+      window.location.reload();
+    } catch (error: any) {
+      toast.error(error.message);
+      dispatch(tweetsActions.clearError());
     }
   };
 
@@ -67,6 +69,7 @@ export const AddTweetModal = () => {
                     placeholder='What is happening?!'
                     className='w-full h-[120px] outline-none border-b border-b-[#ddd]'
                     value={caption}
+                    name='caption'
                     onChange={handleChange}
                   ></textarea>
                   <div className='flex items-center'>
