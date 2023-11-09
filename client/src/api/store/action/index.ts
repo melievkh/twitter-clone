@@ -8,7 +8,6 @@ import {
   getTweetsThunk,
 } from "./thunks/tweetsThunk";
 import {
-  createMessageThunk,
   getMessagesByUserThunk,
   getMessagesThunk,
 } from "./thunks/messagesThunk";

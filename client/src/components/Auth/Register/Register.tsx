@@ -1,17 +1,11 @@
 import { useState } from "react";
-import { useSelector } from "react-redux";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { FaTwitter } from "react-icons/fa6";
-import { toast } from "react-toastify";
 
 import ROUTES from "router/routes";
 import useAuth from "hooks/useAuth";
-import { getUserError } from "api/store/selectors";
 import { IRegisterProps } from "types";
 import styles from "../style";
-import { userActions } from "api/store/reducers/slices/userSlice";
-import { useAppDispatch } from "api/store";
-import { AsyncThunks } from "api/store/action";
 
 const SignUp = () => {
   const initialValues: IRegisterProps = {
@@ -22,31 +16,17 @@ const SignUp = () => {
   };
   const [formValues, setFormValues] = useState(initialValues);
   const { username, fullname, email, password } = formValues;
-  const navigate = useNavigate();
-  const dispatch = useAppDispatch();
-  const authError = useSelector(getUserError);
-  console.log(authError);
+  const { registerUser } = useAuth();
 
   const handleChange = (e: any) => {
     setFormValues({ ...formValues, [e.target.name]: e.target.value });
   };
 
-  const handleRegister = async (e: any) => {
+  const handleRegister = (e: any) => {
     e.preventDefault();
-
-    try {
-      await dispatch(AsyncThunks.registerUser(formValues));
-
-      if (!authError) {
-        toast.success("registered successfully!");
-        navigate(ROUTES.LOGIN);
-      }
-      return toast.error(authError?.message);
-    } catch (error: any) {
-      toast.error(error.message);
-      dispatch(userActions.clearError());
-    }
+    registerUser(formValues);
   };
+
   return (
     <div className={styles.formContainer}>
       <form className={styles.formWraper} onSubmit={handleRegister}>

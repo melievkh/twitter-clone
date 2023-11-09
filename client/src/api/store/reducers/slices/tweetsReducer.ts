@@ -17,6 +17,7 @@ const tweetsSlice = createSlice({
   name: "tweets",
   initialState,
   reducers: {
+    reset: () => initialState,
     clearError: (state) => {
       state.error = null;
     },

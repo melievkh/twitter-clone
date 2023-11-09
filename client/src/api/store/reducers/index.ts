@@ -1,18 +1,16 @@
 import { combineReducers } from "@reduxjs/toolkit";
 
+import { authReducer } from "./slices/authSlice";
 import { userReducer } from "./slices/userSlice";
-import { usersReducer } from "./slices/allUsersSlice";
 import { tweetsReducer } from "./slices/tweetsReducer";
 import { messagesReducer } from "./slices/messagesSlice";
 
 const rootReducer = combineReducers({
+  authReducer,
   userReducer,
-  usersReducer,
   tweetsReducer,
   messagesReducer,
 });
-
-export const persistentStoreBlacklist = [];
 
 export type RootState = ReturnType<typeof rootReducer>;
 

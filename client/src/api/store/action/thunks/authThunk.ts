@@ -19,7 +19,6 @@ export const registerUserThunk: AsyncThunkPayloadCreator<
 
     return response.data;
   } catch (error: any) {
-    console.log(error);
     return rejectWithValue(error.response.data);
   }
 };
@@ -28,7 +27,7 @@ export const loginUserThunk: AsyncThunkPayloadCreator<
   any,
   ILoginProps,
   { rejectValue: any }
-> = async (loginParams, { rejectWithValue, dispatch }) => {
+> = async (loginParams, { dispatch, rejectWithValue }) => {
   try {
     const response = await axiosInstance.post(
       endpoints.auth.login,

@@ -4,6 +4,7 @@ import Cookies from "js-cookie";
 
 import { refreshTokens } from "./api";
 import endpoints from "./endpoints";
+import { COOKIE_KEYS } from "appConstants";
 
 const axiosInstance = axios.create({ baseURL: "http://localhost:4000" });
 
@@ -11,7 +12,7 @@ const endpointsWithoutToken = [endpoints.auth.login, endpoints.auth.register];
 
 axiosInstance.interceptors.request.use((config: InternalAxiosRequestConfig) => {
   if (config.headers && !includes(endpointsWithoutToken, config.url)) {
-    const accessToken = Cookies.get("accessToken");
+    const accessToken = Cookies.get(COOKIE_KEYS.ACCESS_TOKEN);
 
     if (accessToken) {
       config.headers.Authorization = `Bearer ${accessToken}`;
@@ -31,7 +32,7 @@ axiosInstance.interceptors.response.use(
 
       // if refresh token is expired
       if (config.url === endpoints.auth.refresh && status === 401) {
-        Cookies.remove("refreshToken");
+        Cookies.remove(COOKIE_KEYS.REFRESH_TOKEN);
         window.location.reload();
       }
 

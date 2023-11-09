@@ -1,15 +1,18 @@
+import { COOKIE_KEYS } from "appConstants";
 import Cookies from "js-cookie";
 
-export const updateLocalTokens = (tokens: {
+interface ITokenTypes {
   accessToken: string;
   refreshToken: string;
-}) => {
+}
+
+export const updateLocalTokens = (tokens: ITokenTypes) => {
   const { accessToken, refreshToken } = tokens;
 
-  Cookies.set("accessToken", accessToken, {
+  Cookies.set(COOKIE_KEYS.ACCESS_TOKEN, accessToken, {
     expires: 10,
   });
-  Cookies.set("refreshToken", refreshToken, {
+  Cookies.set(COOKIE_KEYS.REFRESH_TOKEN, refreshToken, {
     expires: 80,
   });
 };
