@@ -4,7 +4,7 @@ import axiosInstance from "api/axios/axiosInstances";
 import endpoints from "api/axios/endpoints";
 import { ErrorResponseType } from "types";
 
-export const getUserThunk: AsyncThunkPayloadCreator<
+export const getUserByIdThunk: AsyncThunkPayloadCreator<
   any,
   string,
   { rejectValue: ErrorResponseType }

@@ -1,37 +1,30 @@
+import { useEffect } from "react";
+import { useSelector } from "react-redux";
 import { FaRegComment, FaRegHeart, FaUser } from "react-icons/fa6";
+import { toast } from "react-toastify";
 import { BiRepost } from "react-icons/bi";
 import { CiViewBoard } from "react-icons/ci";
 import { BsBookmark } from "react-icons/bs";
+import { AiOutlineDelete } from "react-icons/ai";
 
-import useGetUserById from "hooks/useGetUserById";
-import useShowDate from "hooks/useShowDate";
 import ITweetProps from "types";
 import styles from "./style";
-import { AiOutlineDelete } from "react-icons/ai";
+import { getFormattedDateWithDay } from "utils/date";
 import { useAppDispatch } from "api/store";
 import { AsyncThunks } from "api/store/action";
-import { toast } from "react-toastify";
-import { useSelector } from "react-redux";
 import { getUserId } from "api/store/selectors";
 
-const Tweet = (props: ITweetProps) => {
-  const { created_at, caption, user_id, id } = props;
-  const user = useGetUserById(user_id);
+interface Props {
+  tweet: ITweetProps;
+}
+
+const Tweet = ({ tweet }: Props) => {
   const dispatch = useAppDispatch();
   const userId = useSelector(getUserId);
-  // const error = useSelector(getTweetError);
-
-  const { month, day } = useShowDate(created_at);
 
   const handleDelete = async (id: any) => {
-    try {
-      await dispatch(AsyncThunks.deleteTweet(id));
-
-      toast.success("Deleted successfully!");
-      window.location.reload();
-    } catch (error: any) {
-      toast.error(error.message);
-    }
+    await dispatch(AsyncThunks.deleteTweet(id));
+    toast.success("Deleted successfully!");
   };
 
   return (
@@ -46,15 +39,15 @@ const Tweet = (props: ITweetProps) => {
           <div className='sm:hidden flex w-5 h-5 rounded-full justify-center items-center border border-[#ddd]'>
             <FaUser className='text-sm' />
           </div>
-          <h1>{user?.fullname}</h1>
+          <h1>{tweet.fullname}</h1>
           <span>-</span>
           <h2 className='text-sm text-[#7e7e7e]'>
-            {month} {day}
+            {getFormattedDateWithDay(tweet.created_at)}
           </h2>
-          {user_id === userId && (
+          {tweet.user_id === userId && (
             <button
               className='w-[40px] h-[40px] hover:bg-[#ddd] flex justify-center items-center rounded-full'
-              onClick={() => handleDelete(id)}
+              onClick={() => handleDelete(tweet.id)}
             >
               <AiOutlineDelete className='text-sm text-[#ec8080]' />
             </button>
@@ -62,7 +55,7 @@ const Tweet = (props: ITweetProps) => {
         </div>
 
         <div className='w-full'>
-          <p className='text-sm'>{caption}</p>
+          <p className='text-sm'>{tweet.caption}</p>
         </div>
 
         <div className='w-full flex justify-around'>

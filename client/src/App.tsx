@@ -7,20 +7,31 @@ import Router from "router/router";
 import { useAppDispatch } from "api/store";
 import { authActions } from "api/store/reducers/slices/authSlice";
 import { getAuthError } from "api/store/selectors";
+import { AsyncThunks } from "api/store/action";
 
 function App() {
   const authError = useSelector(getAuthError);
   const dispatch = useAppDispatch();
 
-  useEffect(() => {
-    const clearData = () => {
-      if (authError?.message === "Unauthorized") {
-        dispatch(authActions.reset());
-      }
-    };
+  const fetchTweets = async () => {
+    await dispatch(AsyncThunks.getTweets());
+  };
 
+  const fetchUsers = async () => {
+    await dispatch(AsyncThunks.getAllUsers());
+  };
+
+  const clearData = () => {
+    if (authError?.message === "Unauthorized") {
+      dispatch(authActions.reset());
+    }
+  };
+
+  useEffect(() => {
+    fetchTweets();
+    fetchUsers();
     clearData();
-  }, [authError, dispatch]);
+  }, []);
 
   return (
     <>

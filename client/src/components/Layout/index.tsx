@@ -1,4 +1,4 @@
-import SearchComponent from "components/SearchComponent";
+import SearchComponent from "components/SearchComponent/SearchComponent";
 import Navbar from "./Navbar";
 import MobileNavbar from "./Navbar/MobileNavbar";
 

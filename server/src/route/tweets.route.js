@@ -3,11 +3,12 @@ const {
   createTweet,
   getTweets,
   deleteTweet,
+  getTweetsByUserId,
 } = require("../controller/tweet.controller");
 
 const router = require("express").Router();
 
-router.get("/:id", getById);
+router.get("/:userId", getTweetsByUserId);
 router.post("/create", createTweet);
 router.delete("/delete/:id", deleteTweet);
 router.get("/", getTweets);

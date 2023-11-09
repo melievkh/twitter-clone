@@ -1,5 +1,5 @@
 export default interface ITweetProps {
-  id?: string | number | undefined;
+  id: string | number | undefined;
   username: string;
   fullname: string;
   updated_at?: string;
@@ -40,11 +40,10 @@ export interface ILoginProps {
 
 export interface UserType {
   id: string;
-  fullname?: string;
-  username?: string;
-  email?: string;
-  password?: string;
-  created_at?: string;
+  fullname: string;
+  username: string;
+  email: string;
+  created_at: string;
 }
 
 export interface UpdateUserParamsType {

@@ -14,7 +14,6 @@ const createTweet = async (req, res) => {
   try {
     const { userId } = req;
     const { caption } = req.body;
-    console.log(caption, "caption");
     await db.createTweet(caption, userId);
     res.status(201).json({ message: "created tweet successfully!" });
   } catch (error) {
@@ -22,14 +21,14 @@ const createTweet = async (req, res) => {
   }
 };
 
-const getById = async (req, res) => {
+const getTweetsByUserId = async (req, res) => {
   try {
-    const { id } = req.params;
-    const foundTweet = await db.getTweetById(id);
-    if (!foundTweet) {
-      throw new CustomError("No tweet found!", 404);
+    const { userId } = req.params;
+    const tweets = await db.getTweetsByUserId(userId);
+    if (!tweets) {
+      throw new CustomError("No tweets found!", 404);
     }
-    res.status(200).json(foundTweet);
+    res.status(200).json(tweets);
   } catch (error) {
     errorHandler(error, req, res);
   }
@@ -51,4 +50,9 @@ const deleteTweet = async (req, res) => {
   }
 };
 
-module.exports = { getTweets, createTweet, getById, deleteTweet };
+module.exports = {
+  getTweets,
+  createTweet,
+  getTweetsByUserId,
+  deleteTweet,
+};

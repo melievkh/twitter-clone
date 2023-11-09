@@ -6,26 +6,19 @@ import { RxAvatar } from "react-icons/rx";
 
 import ROUTES from "router/routes";
 import useAuth from "hooks/useAuth";
-import useGetMyTweets from "hooks/useGetMyTwits";
-import useGetUserById from "hooks/useGetUserById";
-import { getUserId } from "api/store/selectors";
-import useShowDate from "hooks/useShowDate";
+import { getUser } from "api/store/selectors";
 import Tweet from "components/Twit/Twit";
+import { getFormattedMonthAndYear } from "utils/date";
 
 const ProfilePage = () => {
   const navigate = useNavigate();
-  const userId = useSelector(getUserId);
-  const user = useGetUserById(userId);
-  const tweets = useGetMyTweets(userId);
+  const user = useSelector(getUser);
   const { logoutUser } = useAuth();
-  const countOfTweets = tweets.length;
 
   const logout = () => {
     logoutUser();
     navigate(ROUTES.LOGIN);
   };
-  const { created_at }: any = user;
-  const { month, year } = useShowDate(created_at);
 
   return (
     <div className='w-full h-[100vh] overflow-scroll flex flex-col'>
@@ -36,7 +29,7 @@ const ProfilePage = () => {
 
         <div className='flex flex-col'>
           <h3 className='text-lg'>{user?.fullname}</h3>
-          <p className='text-sm text-[#484848]'>{countOfTweets} posts</p>
+          <p className='text-sm text-[#484848]'> posts</p>
         </div>
       </header>
 
@@ -60,7 +53,7 @@ const ProfilePage = () => {
           If it makes you happy, <br /> make it private
         </p>
         <p className='flex gap-1 items-center'>
-          <AiOutlineCalendar /> {month} {year}
+          {/* <AiOutlineCalendar /> {getFormattedMonthAndYear(user.createt_at)} */}
         </p>
       </div>
 
@@ -70,13 +63,13 @@ const ProfilePage = () => {
           <h1 className='text-xl'>My Posts</h1>
         </div>
 
-        {tweets.length ? (
-          tweets.map((tweet) => <Tweet key={tweet.id} {...tweet} />)
+        {/* {tweets.length ? (
+          tweets.map((tweet) => <Tweet key={tweet.id} tweet={tweet} />)
         ) : (
           <div className='w-full flex justify-center p-4'>
             <h1>No Tweets Found!</h1>
           </div>
-        )}
+        )} */}
       </div>
     </div>
   );

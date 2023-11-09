@@ -1,35 +1,37 @@
+import { useEffect } from "react";
+import { Link, useParams } from "react-router-dom";
+import { useSelector } from "react-redux";
+import { BiArrowBack } from "react-icons/bi";
+import { AiOutlineCalendar } from "react-icons/ai";
+
 import { useAppDispatch } from "api/store";
 import { AsyncThunks } from "api/store/action";
-import { getUser } from "api/store/selectors";
+import { getUserById, getuserTweets } from "api/store/selectors";
+import { getFormattedMonthAndYear } from "utils/date";
 import Tweet from "components/Twit/Twit";
-import useGetMyTweets from "hooks/useGetMyTwits";
-import useShowDate from "hooks/useShowDate";
-import { useCallback, useEffect } from "react";
-import { AiOutlineCalendar } from "react-icons/ai";
-import { BiArrowBack } from "react-icons/bi";
-import { useSelector } from "react-redux";
-import { Link, useParams } from "react-router-dom";
 import ROUTES from "router/routes";
 
 const UserDetailsPage = () => {
   const { id }: any = useParams();
   const dispatch = useAppDispatch();
-  const user = useSelector(getUser);
-  const tweets = useGetMyTweets(id);
-  const countOfPosts = tweets.length;
+  const user = useSelector(getUserById);
+  const tweets = useSelector(getuserTweets);
 
-  const fetchUserDetails = useCallback(async () => {
+  const fetchUserDetails = async () => {
     await dispatch(AsyncThunks.getUser(id));
-  }, [dispatch, id]);
+  };
+
+  const fetchTweets = async () => {
+    await dispatch(AsyncThunks.getUserTweetsByUserId(id));
+  };
 
   useEffect(() => {
+    fetchTweets();
     fetchUserDetails();
-  }, [fetchUserDetails]);
+  }, []);
 
-  console.log(user);
+  if (!user) return null;
 
-  const { created_at }: any = user;
-  const { month, year } = useShowDate(created_at);
   return (
     <div className='w-full h-[100vh] overflow-scroll flex flex-col mt-20'>
       <header className='fixed top-0 w-full h-14 flex items-center p-4 gap-4 backdrop-blur-md'>
@@ -39,7 +41,7 @@ const UserDetailsPage = () => {
 
         <div className='flex flex-col'>
           <h3 className='text-lg'>{user?.fullname}</h3>
-          <p className='text-sm text-[#484848]'>{countOfPosts} posts</p>
+          <p className='text-sm text-[#484848]'>posts</p>
         </div>
       </header>
 
@@ -53,7 +55,7 @@ const UserDetailsPage = () => {
           If it makes you happy, <br /> make it private
         </p>
         <p className='flex gap-1 items-center'>
-          <AiOutlineCalendar /> {month} {year}
+          <AiOutlineCalendar /> {getFormattedMonthAndYear(user.created_at)}
         </p>
       </div>
 
@@ -64,7 +66,7 @@ const UserDetailsPage = () => {
         </div>
 
         {tweets.length ? (
-          tweets.map((tweet) => <Tweet key={tweet.id} {...tweet} />)
+          tweets.map((tweet) => <Tweet key={tweet.id} tweet={tweet} />)
         ) : (
           <div className='w-full flex justify-center p-4'>
             <h1>No Tweets Found!</h1>

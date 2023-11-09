@@ -71,15 +71,15 @@ const db = {
   // tweets
 
   getTweets: async () => {
-    const getTweetQuery = `SELECT * FROM tweets;`;
+    const getTweetQuery = `SELECT tweets.*, users.username, users.fullname FROM tweets JOIN users ON tweets.user_id = users.id;`;
     const tweets = await pool.query(getTweetQuery);
     return tweets.rows;
   },
 
-  getTweetById: async (tweetId) => {
-    const getTweetByIdQuery = `SELECT * FROM tweets WHERE id = $1;`;
-    const tweets = await pool.query(getTweetByIdQuery, [tweetId]);
-    return tweets.rows[0];
+  getTweetsByUserId: async (userId) => {
+    const getTweetByIdQuery = `SELECT tweets.*, users.username, users.fullname from tweets JOIN users ON tweets.user_id = users.id WHERE user_id = $1;`;
+    const tweets = await pool.query(getTweetByIdQuery, [userId]);
+    return tweets.rows;
   },
 
   createTweet: async (caption, user_id) => {

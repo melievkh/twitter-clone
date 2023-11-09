@@ -2,12 +2,13 @@ import { HiOutlineSearch } from "react-icons/hi";
 
 import CustomButton from "components/CustomButton";
 import Footer from "components/Layout/Footer";
-import useGetUsers from "hooks/useGetUsers";
 import UserList from "components/UserList";
 import { Link } from "react-router-dom";
+import { useSelector } from "react-redux";
+import { getUsers } from "api/store/selectors";
 
 const SearchComponent = () => {
-  const users = useGetUsers();
+  const users = useSelector(getUsers);
   const filteredUsers = users.slice(0, 6);
 
   return (
@@ -37,7 +38,7 @@ const SearchComponent = () => {
             {filteredUsers.map((user) => (
               <li key={user.id}>
                 <Link to={`/users/${user.id}`}>
-                  <UserList key={user.id} {...user} />
+                  <UserList key={user.id} user={user} />
                 </Link>
               </li>
             ))}

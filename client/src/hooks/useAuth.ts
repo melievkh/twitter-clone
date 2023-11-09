@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import Cookies from "js-cookie";
 
@@ -6,42 +6,64 @@ import { useAppDispatch } from "api/store";
 import { getIsLoggedIn } from "api/store/selectors";
 import { ILoginProps, IRegisterProps } from "types";
 import { AsyncThunks } from "api/store/action";
+import { authActions } from "api/store/reducers/slices/authSlice";
+import { COOKIE_KEYS } from "appConstants";
+import { toast } from "react-toastify";
+import { useNavigate } from "react-router-dom";
+import ROUTES from "router/routes";
+import { tweetsActions } from "api/store/reducers/slices/tweetsReducer";
 import { userActions } from "api/store/reducers/slices/userSlice";
 
 const useAuth = () => {
   const dispatch = useAppDispatch();
+  const navigate = useNavigate();
+
   const isLoggedIn = useSelector(getIsLoggedIn);
-  const [credentials, setCredentials] = useState<IRegisterProps>();
+  const [isRegistrationSuccessfull, setIsRegistrationSuccessfull] =
+    useState(false);
+  const [credentials, setCredentials] = useState<{
+    password: string;
+    email: string;
+  }>();
 
-  const registerUser = useCallback(
-    async (registerParams: IRegisterProps) => {
-      setCredentials({
-        fullname: registerParams.fullname,
-        username: registerParams.username,
-        email: registerParams.email,
-        password: registerParams.password,
-      });
+  const registerUser = async (registerParams: IRegisterProps) => {
+    setCredentials({
+      email: registerParams.email,
+      password: registerParams.password,
+    });
 
-      await dispatch(AsyncThunks.registerUser(registerParams));
-    },
-    [dispatch],
-  );
+    const response = await dispatch(AsyncThunks.registerUser(registerParams));
 
-  const loginUser = useCallback(
-    async (loginParams: ILoginProps) => {
-      await dispatch(AsyncThunks.loginUser(loginParams));
-    },
-    [dispatch],
-  );
+    // @ts-ignore
+    if (response.error) {
+      toast.error(response.payload.message);
+      return;
+    }
+    setIsRegistrationSuccessfull(true);
+  };
 
-  const logoutUser = useCallback(async () => {
+  const loginUser = async (loginParams: ILoginProps) => {
+    const response = await dispatch(AsyncThunks.loginUser(loginParams));
+
+    // @ts-ignore
+    if (response.error) {
+      toast.error(response.payload.message);
+      return;
+    }
+    toast.success("Successfully logged in!");
+    navigate(ROUTES.HOME);
+  };
+
+  const logoutUser = async () => {
+    dispatch(authActions.reset());
+    dispatch(tweetsActions.reset());
     dispatch(userActions.reset());
-    Cookies.remove("accessToken");
-    Cookies.remove("refreshToken");
-  }, [dispatch]);
+    Cookies.remove(COOKIE_KEYS.ACCESS_TOKEN);
+    Cookies.remove(COOKIE_KEYS.REFRESH_TOKEN);
+  };
 
   useEffect(() => {
-    if (!isLoggedIn && credentials) {
+    if (!isLoggedIn && credentials && isRegistrationSuccessfull) {
       loginUser(credentials);
     }
   }, [credentials, isLoggedIn, loginUser]);

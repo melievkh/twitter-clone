@@ -14,10 +14,10 @@ const ChatPage = () => {
 
       <ul className='w-full h-max p-4 overflow-scroll'>
         <h1>Suggested people</h1>
-        {users.map((user) => (
+        {users?.map((user) => (
           <li key={user.id}>
             <Link to={`/chat/${user.id}`}>
-              <UserList key={user.id} {...user} />
+              <UserList key={user.id} user={user} />
             </Link>
           </li>
         ))}

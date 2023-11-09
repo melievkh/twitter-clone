@@ -10,7 +10,7 @@ const endpoints = {
   },
   tweets: {
     tweets: "/tweets",
-    tweetById: (tweetId: string) => `/tweets/${tweetId}`,
+    byUserId: (userId: string) => `/tweets/${userId}`,
     create: "/tweets/create",
     delete: (tweetId: string) => `/tweets/delete/${tweetId}`,
   },

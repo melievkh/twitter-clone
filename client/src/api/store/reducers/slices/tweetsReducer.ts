@@ -5,12 +5,14 @@ import ITweetProps, { StateType } from "types";
 
 interface ITweetsType extends StateType<any[]> {
   result: ITweetProps[];
+  userTweets: ITweetProps[];
 }
 
 const initialState: ITweetsType = {
   pending: false,
   error: null,
   result: [],
+  userTweets: [],
 };
 
 const tweetsSlice = createSlice({
@@ -29,6 +31,16 @@ const tweetsSlice = createSlice({
       state.result = action.payload;
     });
     builder.addCase(AsyncThunks.getTweets.rejected, onError);
+
+    builder.addCase(AsyncThunks.getUserTweetsByUserId.pending, onPending);
+    builder.addCase(
+      AsyncThunks.getUserTweetsByUserId.fulfilled,
+      (state, action) => {
+        state.pending = false;
+        state.userTweets = action.payload;
+      },
+    );
+    builder.addCase(AsyncThunks.getUserTweetsByUserId.rejected, onError);
 
     builder.addCase(AsyncThunks.createTweet.pending, onPending);
     builder.addCase(AsyncThunks.createTweet.fulfilled, (state, action) => {

@@ -17,6 +17,19 @@ export const getTweetsThunk: AsyncThunkPayloadCreator<
   }
 };
 
+export const getUserTweetsThunk: AsyncThunkPayloadCreator<
+  any,
+  string,
+  { rejectValue: ErrorResponseType }
+> = async (userId, { rejectWithValue }) => {
+  try {
+    const response = await axiosInstance.get(endpoints.tweets.byUserId(userId));
+    return response.data;
+  } catch (error: any) {
+    return rejectWithValue(error.response.data);
+  }
+};
+
 export const createTweetThunk: AsyncThunkPayloadCreator<
   any,
   string,

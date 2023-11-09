@@ -6,12 +6,14 @@ import { StateType, UserType } from "types";
 
 interface IUsersType extends StateType<any[]> {
   result: UserType[];
+  userById: UserType | null;
 }
 
 const initialState: IUsersType = {
   pending: false,
   error: null,
   result: [],
+  userById: null,
 };
 
 const userSlice = createSlice({
@@ -31,6 +33,13 @@ const userSlice = createSlice({
       state.result = action.payload;
     });
     builder.addCase(AsyncThunks.getAllUsers.rejected, onError);
+
+    builder.addCase(AsyncThunks.getUser.pending, onPending);
+    builder.addCase(AsyncThunks.getUser.fulfilled, (state, action) => {
+      state.pending = false;
+      state.userById = action.payload;
+    });
+    builder.addCase(AsyncThunks.getUser.rejected, onError);
   },
 });
 
