@@ -1,22 +1,18 @@
 const express = require("express");
-const dotenv = require("dotenv");
 const cors = require("cors");
 const { createServer } = require("http");
+require("dotenv").config();
 
-const authRoute = require("./route/auth.route");
-const usersRoute = require("./route/users.route");
-const messageRoute = require("./route/messages.route");
-const tweetsRoute = require("./route/tweets.route");
-const { invalidRoute } = require("./error");
-const db = require("./queries");
-const {
-  authentication,
-  verifyAccessToken,
-} = require("./middleware/auth.middleware");
+const authRoute = require("./src/route/auth.route");
+const usersRoute = require("./src/route/users.route");
+const messageRoute = require("./src/route/messages.route");
+const tweetsRoute = require("./src/route/tweets.route");
+const { invalidRoute } = require("./src/error");
+const { verifyAccessToken } = require("./src/middleware/auth.middleware");
+const db = require("./src/queries");
 
 const app = express();
 const PORT = process.env.PORT | 4000;
-dotenv.config();
 db.initDatabase();
 app.use(cors());
 app.use(express.json());

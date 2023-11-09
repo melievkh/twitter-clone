@@ -3,7 +3,7 @@ import { AsyncThunkPayloadCreator } from "@reduxjs/toolkit";
 import axiosInstance from "api/axios/axiosInstances";
 import endpoints from "api/axios/endpoints";
 import { RootState } from "api/store/reducers";
-import { ErrorResponseType, ICreateMessageType, IMessagesProps } from "types";
+import { ErrorResponseType, IMessagesProps } from "types";
 
 export const getMessagesThunk: AsyncThunkPayloadCreator<
   any,
@@ -20,7 +20,7 @@ export const getMessagesThunk: AsyncThunkPayloadCreator<
 
 export const createMessageThunk: AsyncThunkPayloadCreator<
   any,
-  ICreateMessageType,
+  string,
   { rejectValue: ErrorResponseType; state: RootState }
 > = async (params, { rejectWithValue }) => {
   try {

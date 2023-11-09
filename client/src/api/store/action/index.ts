@@ -22,7 +22,9 @@ export const AsyncThunks = {
   createTweet: createAsyncThunk("createTweet", createTweetThunk),
   deleteTweet: createAsyncThunk("deleteTweet", deleteTweetThunk),
 
-  getMessages: createAsyncThunk("deleteTweet", getMessagesThunk),
-  createMessage: createAsyncThunk("deleteTweet", createMessageThunk),
-  getMessagesByUser: createAsyncThunk("deleteTweet", getMessagesByUserThunk),
+  getMessages: createAsyncThunk("getMessages", getMessagesThunk),
+  getMessagesByUser: createAsyncThunk(
+    "getMessageByUser",
+    getMessagesByUserThunk,
+  ),
 };

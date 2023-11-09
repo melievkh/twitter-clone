@@ -29,13 +29,6 @@ const messageSlice = createSlice({
     });
     builder.addCase(AsyncThunks.getMessages.rejected, onError);
 
-    builder.addCase(AsyncThunks.createMessage.pending, onPending);
-    builder.addCase(AsyncThunks.createMessage.fulfilled, (state, action) => {
-      state.pending = false;
-      state.error = null;
-    });
-    builder.addCase(AsyncThunks.createMessage.rejected, onError);
-
     builder.addCase(AsyncThunks.getMessagesByUser.pending, onPending);
     builder.addCase(
       AsyncThunks.getMessagesByUser.fulfilled,

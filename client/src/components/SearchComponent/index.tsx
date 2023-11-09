@@ -11,17 +11,17 @@ const SearchComponent = () => {
   const filteredUsers = users.slice(0, 6);
 
   return (
-    <div className='w-full relative overflow-scroll pl-8 h-full border-l border-l-[#b4b4b4]'>
-      <header className='w-full h-16 flex items-center'>
-        <HiOutlineSearch className='absolute ml-4 text-[#5a5a5a]' />
+    <div className='w-full relative overflow-scroll h-full border-l border-l-[#b4b4b4]'>
+      <header className='w-full h-12 flex items-center fixed top-0 z-10 shadow-sm backdrop-blur-md'>
+        <HiOutlineSearch className='ml-4 text-[#5a5a5a]' />
         <input
           type='search'
           placeholder='search...'
-          className='w-[80%] h-[40px] p-2 outline-none border border-[#bcbcbc] bg-inherit rounded-[50px] indent-8'
+          className='w-[80%] h-[40px] text-[#2a2a2a] p-2 outline-none border-none bg-inherit rounded-[50px] indent-8'
         />
       </header>
 
-      <div className='w-full flex flex-col gap-6'>
+      <div className='w-full flex flex-col gap-6 mt-16 overflow-scroll pl-8'>
         <div className='w-[80%] bg-[#dcdcdc] p-3 flex flex-col gap-2 rounded-2xl'>
           <h1 className='text-2xl'>Subscribe to Premium</h1>
           <p>

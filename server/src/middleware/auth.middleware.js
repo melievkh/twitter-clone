@@ -13,7 +13,9 @@ module.exports.verifyAccessToken = (req, res, next) => {
     jwt.verify(token, process.env.ACCESS_TOKEN_KEY, (err, payload) => {
       if (err) {
         const errMessage =
-          err.name === "JsonWebTokenError" ? "Unauthorized" : err.message;
+          err.name === "JsonWebTokenError" || "TokenExpiredError"
+            ? "Unauthorized"
+            : err.message;
         throw new CustomError(
           errMessage,
           errMessage === "Unauthorized" ? 401 : 500
