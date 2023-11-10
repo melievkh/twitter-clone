@@ -9,6 +9,9 @@ import useAuth from "hooks/useAuth";
 import { getUser, getUserId, getuserTweets } from "api/store/selectors";
 import { AsyncThunks } from "api/store/action";
 import { useAppDispatch } from "api/store";
+import { AiOutlineCalendar } from "react-icons/ai";
+import { getFormattedMonthAndYear } from "utils/date";
+import Tweet from "components/Twit/Twit";
 
 const ProfilePage = () => {
   const navigate = useNavigate();
@@ -17,8 +20,6 @@ const ProfilePage = () => {
   const tweets = useSelector(getuserTweets);
   const dispatch = useAppDispatch();
   const { logoutUser } = useAuth();
-
-  console.log(tweets);
 
   const fetchTweets = async () => {
     await dispatch(AsyncThunks.getUserTweetsByUserId(userId));
@@ -68,23 +69,23 @@ const ProfilePage = () => {
           If it makes you happy, <br /> make it private
         </p>
         <p className='flex gap-1 items-center'>
-          {/* <AiOutlineCalendar /> {getFormattedMonthAndYear(user.createt_at)} */}
+          {/* <AiOutlineCalendar /> {getFormattedMonthAndYear(user?.createt_at)} */}
         </p>
       </div>
 
       {/* User posts */}
       <div className='w-full'>
-        <div className='w-full h-16 flex justify-center items-center border-b border-b-[#c1c1c1] hover:bg-[#ddd] transition duration-500'>
+        <div className='w-full h-16 flex justify-center items-center border-b border-b-borderColor hover:bg-bgHover transition duration-500'>
           <h1 className='text-xl'>My Posts</h1>
         </div>
 
-        {/* {tweets.length ? (
+        {tweets.length ? (
           tweets.map((tweet) => <Tweet key={tweet.id} tweet={tweet} />)
         ) : (
           <div className='w-full flex justify-center p-4'>
             <h1>No Tweets Found!</h1>
           </div>
-        )} */}
+        )}
       </div>
     </div>
   );

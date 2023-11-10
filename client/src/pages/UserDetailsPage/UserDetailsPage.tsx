@@ -41,7 +41,7 @@ const UserDetailsPage = () => {
 
         <div className='flex flex-col'>
           <h3 className='text-lg'>{user?.fullname}</h3>
-          <p className='text-sm text-[#484848]'>posts</p>
+          <p className='text-sm '>posts</p>
         </div>
       </header>
 
@@ -61,7 +61,7 @@ const UserDetailsPage = () => {
 
       {/* User posts */}
       <div className='w-full'>
-        <div className='w-full h-16 flex justify-center items-center border-b border-b-[#c1c1c1] hover:bg-[#ddd] transition duration-500'>
+        <div className='w-full h-16 flex justify-center items-center border-b border-b-borderColor hover:bg-bgHover transition duration-500'>
           <h1 className='text-xl'>Posts</h1>
         </div>
 

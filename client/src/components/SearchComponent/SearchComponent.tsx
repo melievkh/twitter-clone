@@ -12,9 +12,9 @@ const SearchComponent = () => {
   const filteredUsers = users.slice(0, 6);
 
   return (
-    <div className='w-full relative overflow-scroll h-full border-l border-l-[#b4b4b4]'>
-      <header className='w-full h-12 flex items-center fixed top-0 z-10 shadow-sm backdrop-blur-md'>
-        <HiOutlineSearch className='ml-4 text-[#5a5a5a]' />
+    <div className='w-full relative overflow-scroll h-full border-l border-l-borderColor'>
+      <header className='w-full h-[60px] flex items-center fixed top-0 z-10 shadow-sm backdrop-blur-md'>
+        <HiOutlineSearch className='ml-4' />
         <input
           type='search'
           placeholder='search...'
@@ -23,7 +23,7 @@ const SearchComponent = () => {
       </header>
 
       <div className='w-full flex flex-col gap-6 mt-16 overflow-scroll pl-8'>
-        <div className='w-[80%] bg-[#dcdcdc] p-3 flex flex-col gap-2 rounded-2xl'>
+        <div className='w-[80%] bg-[#181818] p-3 flex flex-col gap-2 rounded-2xl'>
           <h1 className='text-2xl'>Subscribe to Premium</h1>
           <p>
             Subscribe to unlock new features and if eligible, receive a share of
@@ -32,7 +32,7 @@ const SearchComponent = () => {
           <CustomButton>Subscribe</CustomButton>
         </div>
 
-        <div className='w-[80%] bg-[#dcdcdc] p-3 flex flex-col gap-2 rounded-2xl'>
+        <div className='w-[80%] bg-[#181818] p-3 flex flex-col gap-2 rounded-2xl'>
           <h1 className='text-2xl'>Who to follow</h1>
           <ul>
             {filteredUsers.map((user) => (
