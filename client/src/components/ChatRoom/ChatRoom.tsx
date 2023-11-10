@@ -13,9 +13,9 @@ import { useAppDispatch } from "api/store";
 
 interface IMessagesType {
   senderId: string;
+  fullname: string | undefined;
   message: string;
   created_at: string;
-  fullname: string;
 }
 
 const ChatRoom = () => {
@@ -40,11 +40,12 @@ const ChatRoom = () => {
     if (newMessage.trim() !== "") {
       const messageData = {
         senderId,
+        fullname: user?.fullname,
         message: newMessage,
         created_at: new Date().toISOString(),
       };
 
-      socket.emit("privateMessage", { recipientId: user_id, messageData });
+      socket.emit("sendMessage", { recipientId: user_id, messageData });
       setMessages((prevMessages) => [...prevMessages, messageData]);
       setNewMessage("");
     }
@@ -56,7 +57,6 @@ const ChatRoom = () => {
         <h1>{user?.fullname}</h1>
         <h2 className='text-[#555] text-sm'>{user?.username}</h2>
       </header>
-
       <div className='w-full h-[80%] overflow-scroll'>
         <ul className='p-2'>
           {messages.map((message, index) => (
@@ -65,7 +65,7 @@ const ChatRoom = () => {
         </ul>
       </div>
 
-      <footer className='sm:w-[50%] w-full bottom-0 fixed h-[10%] flex justify-center items-center gap-2 z-10'>
+      <footer className='sm:w-[50%] w-full bottom-0 fixed h-[12%] flex justify-center items-center gap-2 z-10 border-t border-t-borderColor'>
         <input
           type='text'
           placeholder='type your message...'
@@ -74,12 +74,12 @@ const ChatRoom = () => {
           onChange={(e) => setNewMessage(e.target.value)}
         />
 
-        <button className='w-[40px] h-[40px] hover:bg-bgHover flex justify-center items-center rounded-full'>
+        <button className='w-[40px] h-[40px] hover:bg-bgHover flex justify-center items-center rounded-full transition duration-300'>
           <PiSmileySticker className='text-2xl' />
         </button>
 
         <CustomButton
-          className='bg-[rgb(66,81,212)] hover:text-[#d5d4d4]'
+          className='bg-[#3965ab] border-none hover:text-[#9f9f9f]'
           onclick={sendPrivateMessage}
         >
           Send
