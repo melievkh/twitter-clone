@@ -18,5 +18,26 @@ services:
     build:
       context: ./socket
     ports:
-      - "4001:4001"
+      - "4003:4003"
     command: ["npm", "start"]
+
+  postgres:
+    image: postgres:latest
+
+    healthcheck:
+      test: ["CMD", "pg_isready -U postgres -d postgres"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: 21222324
+      POSTGRES_DB: twit_server
+
+    ports:
+      - "5432:5432"
+    volumes: # Define the volume here
+      - postgres-data:/var/lib/postgresql/data
+volumes:
+  postgres-data: # Define the volume name here

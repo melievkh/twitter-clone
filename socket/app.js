@@ -21,7 +21,7 @@ io.on("connect", (socket) => {
   });
 });
 
-const socketPort = 4001;
+const socketPort = process.env.SOCKET_PORT | 4003;
 server.listen(socketPort, () => {
   console.log(`Socket.IO server listening on port ${socketPort}`);
 });
