@@ -16,10 +16,10 @@ const Message: React.FC<MessageProps> = ({ message }) => {
   return (
     <li className='flex items-end mb-2'>
       <div className='flex-shrink-0 w-8 h-8 mr-2 rounded-full bg-[#545bc1]'></div>
-      <div className='bg-gray-100 p-2 rounded-md'>
-        <div className='font-bold text-gray-800'>{fullname}</div>
-        <div className='text-gray-600'>{messageContent}</div>
-        <div className='text-xs text-gray-500'>
+      <div className='bg-bgHover p-2 rounded-md'>
+        <div className='font-bold text-sm'>{fullname}</div>
+        <div className='text-xs'>{messageContent}</div>
+        <div className='text-[8px] text-[#c1c1c1] text-right'>
           {new Date(created_at).toLocaleTimeString(undefined, {
             hour: "2-digit",
             minute: "2-digit",

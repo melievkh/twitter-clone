@@ -50,7 +50,7 @@ const ProfilePage = () => {
       <div className='w-full h-max flex items-center justify-between p-4 mt-20'>
         <RxAvatar className='text-[100px]' />
         <button
-          className='h-8 text-[#db8383] bg-[#efefef] pr-4 pl-4 rounded-xl border border-[#e79999]'
+          className='h-8 text-[#e17474] hover:bg-bgHover pr-4 pl-4 rounded-xl border border-[#ecbaba] transition duration-300'
           onClick={logout}
         >
           log out
@@ -73,7 +73,7 @@ const ProfilePage = () => {
 
       {/* User posts */}
       <div className='w-full'>
-        <div className='w-full h-16 flex justify-center items-center border-b border-b-[#c1c1c1] hover:bg-[#ddd] transition duration-500'>
+        <div className='w-full h-16 flex justify-center items-center border-b border-b-borderColor hover:bg-bgHover transition duration-500'>
           <h1 className='text-xl'>My Posts</h1>
         </div>
 

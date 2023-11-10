@@ -1,34 +1,45 @@
 import { Link } from "react-router-dom";
-import { SiGravatar } from "react-icons/si";
+import { LuLogOut } from "react-icons/lu";
 import { FaXTwitter } from "react-icons/fa6";
 
 import { navList } from "helpers/navList";
 import ROUTES from "router/routes";
-import { AddTweetModal } from "modal/AddTwitModal";
+import useAuth from "hooks/useAuth";
 
 const Navbar = () => {
+  const { logoutUser } = useAuth();
+
+  const handleLogOut = async () => {
+    await logoutUser();
+  };
+
   return (
-    <div className='w-full h-[100vh] overflow-scroll flex sm:flex-col flex-row items-end p-2 bg-[#e9e9e9] border-r border-r-[#ddd] transition duration-300'>
+    <div className='w-full h-[100vh] overflow-scroll flex sm:flex-col flex-row items-end justify-between p-2 border-r border-r-borderColor transition duration-300'>
       <ul className='flex flex-col gap-4 items-center mt-2'>
         <Link
           to={ROUTES.HOME}
-          className='w-[50px] h-[50px] hover:bg-[#ddd] flex justify-center items-center rounded-full'
+          className='w-[50px] h-[50px] hover:bg-bgHover flex justify-center items-center rounded-full transition duration-300'
         >
-          <FaXTwitter className='text-3xl text-[#1e1e1e]' />
+          <FaXTwitter className='text-3xl' />
         </Link>
 
         {navList.map((item) => (
           <Link to={item.url} key={item.id}>
-            <button className='w-[50px] h-[50px] hover:bg-[#ddd] flex justify-center items-center rounded-full'>
-              <item.icon className='text-3xl text-[#1e1e1e]' />
+            <button className='w-[50px] h-[50px] focus:bg-bgHover hover:bg-bgHover flex justify-center items-center rounded-full transition duration-300'>
+              <item.icon className='text-2xl' />
             </button>
           </Link>
         ))}
-        <AddTweetModal />
-        <button className='w-[60px] h-[60px] mt-12 flex justify-center items-center rounded-full'>
-          <SiGravatar style={{ fontSize: 40 }} />
-        </button>
       </ul>
+      <div className='w-full flex justify-end mb-6'>
+        <button
+          className='flex justify-center items-center gap-2 text-md text-[#a14a4a] hover:bg-deleteBgColor rounded-xl p-2 transition duration-300'
+          onClick={handleLogOut}
+        >
+          logout
+          <LuLogOut className='text-xl' />
+        </button>
+      </div>
     </div>
   );
 };

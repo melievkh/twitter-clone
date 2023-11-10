@@ -1,22 +1,26 @@
 import { Link } from "react-router-dom";
+import { useSelector } from "react-redux";
 
 import Footer from "components/Layout/Footer";
 import Header from "components/Layout/Header";
+import AddTweet from "components/AddTweet/AddTweet";
 import Tweet from "components/Twit/Twit";
-import ITweetProps from "types";
-import { useSelector } from "react-redux";
 import { getTweets } from "api/store/selectors";
+import ITweetProps from "types";
 
 const HomePage = () => {
   const tweets = useSelector(getTweets);
 
   return (
     <div className='w-full h-full'>
-      <div className='sm:w-1/2 w-full fixed '>
+      <div className='sm:w-1/2 w-full fixed border-b border-b-[#5b5b5b]'>
         <Header />
       </div>
 
       <div className='w-full flex flex-col items-center justify-between mt-20'>
+        <div className='w-full'>
+          <AddTweet />
+        </div>
         <ul>
           {tweets.length ? (
             tweets.map((tweet: ITweetProps) => (

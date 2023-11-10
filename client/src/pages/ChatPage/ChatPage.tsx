@@ -9,7 +9,7 @@ const ChatPage = () => {
 
   return (
     <div className='w-full'>
-      <div className='w-full h-16 border-b border-b-[#ddd] flex items-center pl-4'>
+      <div className='w-full h-16 border-b border-b-borderColor flex items-center pl-4'>
         <h2 className='text-xl'>People to chat with...</h2>
       </div>
 

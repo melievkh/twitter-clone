@@ -28,7 +28,7 @@ const UserDetailsPage = () => {
   useEffect(() => {
     fetchTweets();
     fetchUserDetails();
-  }, [fetchTweets, fetchUserDetails]);
+  }, []);
 
   if (!user) return null;
 
@@ -61,7 +61,7 @@ const UserDetailsPage = () => {
 
       {/* User posts */}
       <div className='w-full'>
-        <div className='w-full h-16 flex justify-center items-center border-b border-b-[#c1c1c1] hover:bg-[#ddd] transition duration-500'>
+        <div className='w-full h-16 flex justify-center items-center border-b border-b-borderColor hover:bg-bgHover transition duration-500'>
           <h1 className='text-xl'>Posts</h1>
         </div>
 
