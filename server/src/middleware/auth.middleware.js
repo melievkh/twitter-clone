@@ -18,7 +18,7 @@ module.exports.verifyAccessToken = (req, res, next) => {
             : err.message;
         throw new CustomError(
           errMessage,
-          errMessage === "Unauthorized" ? 401 : 500
+          errMessage === "Unauthorized" ? 401 : 500,
         );
       }
 

@@ -48,7 +48,7 @@ module.exports = {
             next(err);
           }
           resolve(userId);
-        }
+        },
       );
     });
   },

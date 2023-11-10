@@ -117,7 +117,7 @@ const db = {
   getMessagesByUserId: async (userId) => {
     const result = await pool.query(
       `SELECT * FROM chat_messages WHERE sender_id = $1 OR recipient_id = $1`,
-      [userId]
+      [userId],
     );
 
     return result.rows;
