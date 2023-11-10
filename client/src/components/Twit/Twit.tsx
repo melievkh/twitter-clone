@@ -1,4 +1,3 @@
-import { useEffect } from "react";
 import { useSelector } from "react-redux";
 import { FaRegComment, FaRegHeart, FaUser } from "react-icons/fa6";
 import { toast } from "react-toastify";

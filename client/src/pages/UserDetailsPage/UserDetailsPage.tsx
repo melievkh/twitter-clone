@@ -28,7 +28,7 @@ const UserDetailsPage = () => {
   useEffect(() => {
     fetchTweets();
     fetchUserDetails();
-  }, []);
+  }, [fetchTweets, fetchUserDetails]);
 
   if (!user) return null;
 

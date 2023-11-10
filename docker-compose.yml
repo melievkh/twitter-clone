@@ -12,11 +12,11 @@ services:
       context: ./server
     ports:
       - "4000:4000"
-    command: ["npm", "run", "dev"]
+    command: ["npm", "start"]
 
   socket:
     build:
       context: ./socket
     ports:
       - "4001:4001"
-    command: ["npm", "run", "dev"]
+    command: ["npm", "start"]

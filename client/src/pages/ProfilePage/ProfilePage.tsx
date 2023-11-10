@@ -1,24 +1,39 @@
+import { useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
-import { AiOutlineCalendar } from "react-icons/ai";
 import { BiArrowBack } from "react-icons/bi";
 import { RxAvatar } from "react-icons/rx";
 
 import ROUTES from "router/routes";
 import useAuth from "hooks/useAuth";
-import { getUser } from "api/store/selectors";
-import Tweet from "components/Twit/Twit";
-import { getFormattedMonthAndYear } from "utils/date";
+import { getUser, getUserId, getuserTweets } from "api/store/selectors";
+import { AsyncThunks } from "api/store/action";
+import { useAppDispatch } from "api/store";
 
 const ProfilePage = () => {
   const navigate = useNavigate();
   const user = useSelector(getUser);
+  const userId = useSelector(getUserId);
+  const tweets = useSelector(getuserTweets);
+  const dispatch = useAppDispatch();
   const { logoutUser } = useAuth();
+
+  console.log(tweets);
+
+  const fetchTweets = async () => {
+    await dispatch(AsyncThunks.getUserTweetsByUserId(userId));
+  };
+
+  useEffect(() => {
+    fetchTweets();
+  }, [fetchTweets]);
 
   const logout = () => {
     logoutUser();
     navigate(ROUTES.LOGIN);
   };
+
+  if (!user) return null;
 
   return (
     <div className='w-full h-[100vh] overflow-scroll flex flex-col'>
