@@ -15,6 +15,7 @@ interface IMessagesType {
   senderId: string;
   message: string;
   created_at: string;
+  fullname: string;
 }
 
 const ChatRoom = () => {
