@@ -1,17 +1,17 @@
-import { useSelector } from "react-redux";
-import { FaRegComment, FaRegHeart, FaUser } from "react-icons/fa6";
 import { toast } from "react-toastify";
+import { useSelector } from "react-redux";
 import { BiRepost } from "react-icons/bi";
-import { CiViewBoard } from "react-icons/ci";
 import { BsBookmark } from "react-icons/bs";
+import { CiViewBoard } from "react-icons/ci";
 import { AiOutlineDelete } from "react-icons/ai";
+import { FaRegComment, FaRegHeart, FaUser } from "react-icons/fa6";
 
+import { getFormattedDateWithDay } from "utils/date";
+import { getUserId } from "api/store/selectors";
+import { AsyncThunks } from "api/store/action";
+import { useAppDispatch } from "api/store";
 import ITweetProps from "types";
 import styles from "./style";
-import { getFormattedDateWithDay } from "utils/date";
-import { useAppDispatch } from "api/store";
-import { AsyncThunks } from "api/store/action";
-import { getUserId } from "api/store/selectors";
 
 interface Props {
   tweet: ITweetProps;

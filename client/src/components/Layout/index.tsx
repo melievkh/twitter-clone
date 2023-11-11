@@ -1,6 +1,6 @@
-import SearchComponent from "components/SearchComponent/SearchComponent";
 import Navbar from "./Navbar/Navbar";
 import MobileNavbar from "./Navbar/MobileNavbar";
+import SearchComponent from "components/SearchComponent/SearchComponent";
 
 const Layout = ({ children }: any) => {
   return (

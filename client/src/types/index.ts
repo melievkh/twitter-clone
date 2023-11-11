@@ -71,8 +71,9 @@ export interface IMessagesProps {
   user_id: string;
 }
 
-export interface ICreateMessageType {
+export interface IMessageType {
   sender_id: string;
-  recipient_id: string;
+  recipient_id?: any;
   message: string;
+  timestamp?: any;
 }

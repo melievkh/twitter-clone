@@ -1,7 +1,7 @@
 import { AsyncThunkPayloadCreator } from "@reduxjs/toolkit";
 
-import axiosInstance from "api/axios/axiosInstances";
 import endpoints from "api/axios/endpoints";
+import axiosInstance from "api/axios/axiosInstances";
 import { ErrorResponseType, IMessagesProps } from "types";
 
 export const getMessagesThunk: AsyncThunkPayloadCreator<

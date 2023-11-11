@@ -34,7 +34,7 @@ const db = {
             sender_id VARCHAR(200) REFERENCES users(id) NOT NULL,
             recipient_id VARCHAR(200) REFERENCES users(id) NOT NULL,
             message TEXT NOT NULL,
-            timestamp TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP
+            timestamp TIMESTAMPTZ DEFAULT NOW()
             );
          `);
     } catch (error) {

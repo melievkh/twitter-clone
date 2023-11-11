@@ -1,14 +1,14 @@
 import { useState } from "react";
 import { toast } from "react-toastify";
-import { AiOutlineFileGif } from "react-icons/ai";
-import { PiSmileySticker } from "react-icons/pi";
-import { CiLocationOn } from "react-icons/ci";
 import { GrGallery } from "react-icons/gr";
+import { CiLocationOn } from "react-icons/ci";
+import { PiSmileySticker } from "react-icons/pi";
+import { AiOutlineFileGif } from "react-icons/ai";
 
-import { useAppDispatch } from "api/store";
-import { AsyncThunks } from "api/store/action";
 import { tweetsActions } from "api/store/reducers/slices/tweetsReducer";
 import CustomButton from "components/CustomButton";
+import { AsyncThunks } from "api/store/action";
+import { useAppDispatch } from "api/store";
 
 const AddTweet = () => {
   const [caption, setCaption] = useState<string>("");
@@ -29,7 +29,6 @@ const AddTweet = () => {
       await dispatch(AsyncThunks.createTweet(caption));
       toast.success("Created successfully!");
       setCaption("");
-      window.location.reload();
     } catch (error: any) {
       toast.error(error.message);
       dispatch(tweetsActions.clearError());

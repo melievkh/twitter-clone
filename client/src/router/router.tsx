@@ -1,17 +1,17 @@
-import { getIsLoggedIn } from "api/store/selectors";
-import Layout from "components/Layout";
 import { useSelector } from "react-redux";
 import { Route, Routes } from "react-router-dom";
-import ROUTES from "./routes";
-import HomePage from "pages/HomePage/HomePage";
-import SearchPage from "pages/SearchPage/SearchPage";
-import ChatPage from "pages/ChatPage/ChatPage";
-import ChatRoom from "components/ChatRoom/ChatRoom";
-import ProfilePage from "pages/ProfilePage/ProfilePage";
+
 import UserDetailsPage from "pages/UserDetailsPage/UserDetailsPage";
-import NotificationsPage from "pages/NotificationsPage/NotificationsPage";
+import ProfilePage from "pages/ProfilePage/ProfilePage";
+import SearchPage from "pages/SearchPage/SearchPage";
+import HomePage from "pages/HomePage/HomePage";
+import ChatPage from "pages/ChatPage/ChatPage";
 import Login from "components/Auth/Login/Login";
 import SignUp from "components/Auth/Register/Register";
+import ChatRoom from "components/ChatRoom/ChatRoom";
+import Layout from "components/Layout";
+import { getIsLoggedIn } from "api/store/selectors";
+import ROUTES from "./routes";
 
 // ... (import statements)
 
@@ -32,7 +32,6 @@ const Router = () => {
               path={ROUTES.USER_DETAILS_PAGE}
               element={<UserDetailsPage />}
             />
-            <Route path={ROUTES.NOTIFICATION} element={<NotificationsPage />} />
             <Route path='/*' element={<p>Not Found page</p>} />
           </Routes>
         </Layout>

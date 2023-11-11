@@ -1,17 +1,17 @@
 import { useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { useSelector } from "react-redux";
+import { AiOutlineCalendar } from "react-icons/ai";
 import { BiArrowBack } from "react-icons/bi";
+import { useSelector } from "react-redux";
 import { RxAvatar } from "react-icons/rx";
 
 import ROUTES from "router/routes";
 import useAuth from "hooks/useAuth";
-import { getUser, getUserId, getuserTweets } from "api/store/selectors";
-import { AsyncThunks } from "api/store/action";
-import { useAppDispatch } from "api/store";
-import { AiOutlineCalendar } from "react-icons/ai";
-import { getFormattedMonthAndYear } from "utils/date";
 import Tweet from "components/Twit/Twit";
+import { getUser, getUserId, getuserTweets } from "api/store/selectors";
+import { useAppDispatch } from "api/store";
+import { AsyncThunks } from "api/store/action";
+import { getFormattedMonthAndYear } from "utils/date";
 
 const ProfilePage = () => {
   const navigate = useNavigate();
@@ -21,14 +21,21 @@ const ProfilePage = () => {
   const dispatch = useAppDispatch();
   const { logoutUser } = useAuth();
 
+  // Fetch user details and tweets
+  const fetchUserDetails = async () => {
+    await dispatch(AsyncThunks.getUser(userId));
+  };
   const fetchTweets = async () => {
     await dispatch(AsyncThunks.getUserTweetsByUserId(userId));
   };
 
+  // Fetch user details and tweets on mount
   useEffect(() => {
     fetchTweets();
+    fetchUserDetails();
   }, []);
 
+  // Logout user
   const logout = () => {
     logoutUser();
     navigate(ROUTES.LOGIN);

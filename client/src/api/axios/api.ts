@@ -1,8 +1,9 @@
 import Cookies from "js-cookie";
-import endpoints from "./endpoints";
+
 import { updateLocalTokens } from "./helpers";
 import axiosInstance from "./axiosInstances";
 import { COOKIE_KEYS } from "appConstants";
+import endpoints from "./endpoints";
 
 export const refreshTokens = async () => {
   const refreshToken = Cookies.get(COOKIE_KEYS.REFRESH_TOKEN);

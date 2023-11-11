@@ -1,11 +1,13 @@
-import { getUsers } from "api/store/selectors";
-import Footer from "components/Layout/Footer";
-import UserList from "components/UserList/UserList";
-import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
+import { useSelector } from "react-redux";
+
+import UserList from "components/UserList/UserList";
+import Footer from "components/Layout/Footer";
+import { getUsers } from "api/store/selectors";
 
 const ChatPage = () => {
   const users = useSelector(getUsers);
+
   return (
     <div className='w-full'>
       <div className='w-full h-16 border-b border-b-borderColor flex items-center pl-4'>

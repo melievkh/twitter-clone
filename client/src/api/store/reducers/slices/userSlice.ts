@@ -1,7 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-import { AsyncThunks } from "api/store/action";
 import { onError, onPending } from "api/store/stateResults";
+import { AsyncThunks } from "api/store/action";
 import { StateType, UserType } from "types";
 
 interface IUsersType extends StateType<any[]> {

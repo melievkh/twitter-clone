@@ -1,10 +1,10 @@
 import { HiOutlineSearch } from "react-icons/hi";
-
-import CustomButton from "components/CustomButton";
-import Footer from "components/Layout/Footer";
-import UserList from "components/UserList/UserList";
-import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
+import { Link } from "react-router-dom";
+
+import Footer from "components/Layout/Footer";
+import CustomButton from "components/CustomButton";
+import UserList from "components/UserList/UserList";
 import { getUsers } from "api/store/selectors";
 
 const SearchComponent = () => {

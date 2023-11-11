@@ -26,6 +26,7 @@ const useAuth = () => {
     email: string;
   }>();
 
+  // register user
   const registerUser = async (registerParams: IRegisterProps) => {
     setCredentials({
       email: registerParams.email,
@@ -42,6 +43,7 @@ const useAuth = () => {
     setIsRegistrationSuccessfull(true);
   };
 
+  // login user
   const loginUser = async (loginParams: ILoginProps) => {
     const response = await dispatch(AsyncThunks.loginUser(loginParams));
 
@@ -54,6 +56,7 @@ const useAuth = () => {
     navigate(ROUTES.HOME);
   };
 
+  // logout user
   const logoutUser = async () => {
     dispatch(authActions.reset());
     dispatch(tweetsActions.reset());
@@ -62,6 +65,7 @@ const useAuth = () => {
     Cookies.remove(COOKIE_KEYS.REFRESH_TOKEN);
   };
 
+  // when user is registered, login him/her automatically
   useEffect(() => {
     if (!isLoggedIn && credentials && isRegistrationSuccessfull) {
       loginUser(credentials);

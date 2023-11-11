@@ -1,8 +1,8 @@
 import { useEffect } from "react";
 import { Link, useParams } from "react-router-dom";
-import { useSelector } from "react-redux";
-import { BiArrowBack } from "react-icons/bi";
 import { AiOutlineCalendar } from "react-icons/ai";
+import { BiArrowBack } from "react-icons/bi";
+import { useSelector } from "react-redux";
 
 import { useAppDispatch } from "api/store";
 import { AsyncThunks } from "api/store/action";
@@ -10,7 +10,6 @@ import { getUserById, getuserTweets } from "api/store/selectors";
 import { getFormattedMonthAndYear } from "utils/date";
 import Tweet from "components/Twit/Twit";
 import ROUTES from "router/routes";
-import { userActions } from "api/store/reducers/slices/userSlice";
 
 const UserDetailsPage = () => {
   const { id: userId }: any = useParams();
@@ -18,24 +17,25 @@ const UserDetailsPage = () => {
   const user = useSelector(getUserById);
   const tweets = useSelector(getuserTweets);
 
-  if (!user) return null;
-
+  // Fetch user details and tweets
   const fetchUserDetails = () => {
     if (!userId) return;
     dispatch(AsyncThunks.getUser(userId));
   };
-
   const fetchTweets = () => {
     dispatch(AsyncThunks.getUserTweetsByUserId(userId));
   };
 
+  // Fetch user details and tweets on mount
   useEffect(() => {
     fetchUserDetails();
   }, [userId]);
 
   useEffect(() => {
     fetchTweets();
-  }, [tweets]);
+  }, [userId]);
+
+  if (!user) return null;
 
   return (
     <div className='w-full h-[100vh] overflow-scroll flex flex-col mt-20'>
@@ -46,7 +46,7 @@ const UserDetailsPage = () => {
 
         <div className='flex flex-col'>
           <h3 className='text-lg'>{user?.fullname}</h3>
-          <p className='text-sm '>posts</p>
+          <p className='text-sm '>{tweets?.length} posts</p>
         </div>
       </header>
 

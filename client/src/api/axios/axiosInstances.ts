@@ -1,10 +1,10 @@
-import axios, { InternalAxiosRequestConfig } from "axios";
-import { includes } from "lodash";
 import Cookies from "js-cookie";
+import { includes } from "lodash";
+import axios, { InternalAxiosRequestConfig } from "axios";
 
+import { COOKIE_KEYS } from "appConstants";
 import { refreshTokens } from "./api";
 import endpoints from "./endpoints";
-import { COOKIE_KEYS } from "appConstants";
 
 const axiosInstance = axios.create({ baseURL: "http://localhost:4000" });
 

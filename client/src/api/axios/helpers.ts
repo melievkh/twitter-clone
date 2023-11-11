@@ -1,5 +1,5 @@
-import { COOKIE_KEYS } from "appConstants";
 import Cookies from "js-cookie";
+import { COOKIE_KEYS } from "appConstants";
 
 interface ITokenTypes {
   accessToken: string;
