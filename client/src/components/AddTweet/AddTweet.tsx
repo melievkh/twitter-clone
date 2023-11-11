@@ -37,7 +37,7 @@ const AddTweet = () => {
   };
   return (
     <form
-      className='w-full h-max flex flex-col items-center border-b border-b-[#484848] pl-4 pr-4 pt-4'
+      className='w-full h-max flex flex-col items-center border-b border-b-[#484848] pl-4 pr-4'
       onSubmit={handleAddPost}
     >
       <input

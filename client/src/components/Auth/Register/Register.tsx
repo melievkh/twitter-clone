@@ -30,7 +30,7 @@ const SignUp = () => {
   return (
     <div className={styles.formContainer}>
       <form className={styles.formWraper} onSubmit={handleRegister}>
-        <h1 className='text-2xl font-bold'>Welcome</h1>
+        <h1 className='text-2xl font-bold'>Welcome!</h1>
         <FaTwitter size={28} color='blue' />
         <input
           type='text'
@@ -39,6 +39,7 @@ const SignUp = () => {
           name='username'
           value={username}
           onChange={handleChange}
+          autoComplete='off'
         />
         <input
           type='text'
@@ -47,6 +48,7 @@ const SignUp = () => {
           name='fullname'
           value={fullname}
           onChange={handleChange}
+          autoComplete='off'
         />
         <input
           type='email'
@@ -55,6 +57,7 @@ const SignUp = () => {
           name='email'
           value={email}
           onChange={handleChange}
+          autoComplete='off'
         />
         <input
           type='password'
@@ -63,6 +66,7 @@ const SignUp = () => {
           name='password'
           value={password}
           onChange={handleChange}
+          autoComplete='off'
         />
         <button className={styles.formButton}>Sign Up</button>
 

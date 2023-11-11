@@ -1,5 +1,5 @@
 import SearchComponent from "components/SearchComponent/SearchComponent";
-import Navbar from "./Navbar";
+import Navbar from "./Navbar/Navbar";
 import MobileNavbar from "./Navbar/MobileNavbar";
 
 const Layout = ({ children }: any) => {

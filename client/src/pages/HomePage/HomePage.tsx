@@ -6,6 +6,7 @@ import Tweet from "components/Twit/Twit";
 import ITweetProps from "types";
 import { useSelector } from "react-redux";
 import { getTweets } from "api/store/selectors";
+import AddTweet from "components/AddTweet/AddTweet";
 
 const HomePage = () => {
   const tweets = useSelector(getTweets);
@@ -17,6 +18,9 @@ const HomePage = () => {
       </div>
 
       <div className='w-full flex flex-col items-center justify-between mt-20'>
+        <div className='w-full'>
+          <AddTweet />
+        </div>
         <ul>
           {tweets.length ? (
             tweets.map((tweet: ITweetProps) => (

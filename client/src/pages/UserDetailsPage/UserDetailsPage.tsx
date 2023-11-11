@@ -10,27 +10,32 @@ import { getUserById, getuserTweets } from "api/store/selectors";
 import { getFormattedMonthAndYear } from "utils/date";
 import Tweet from "components/Twit/Twit";
 import ROUTES from "router/routes";
+import { userActions } from "api/store/reducers/slices/userSlice";
 
 const UserDetailsPage = () => {
-  const { id }: any = useParams();
+  const { id: userId }: any = useParams();
   const dispatch = useAppDispatch();
   const user = useSelector(getUserById);
   const tweets = useSelector(getuserTweets);
 
-  const fetchUserDetails = async () => {
-    await dispatch(AsyncThunks.getUser(id));
+  if (!user) return null;
+
+  const fetchUserDetails = () => {
+    if (!userId) return;
+    dispatch(AsyncThunks.getUser(userId));
   };
 
-  const fetchTweets = async () => {
-    await dispatch(AsyncThunks.getUserTweetsByUserId(id));
+  const fetchTweets = () => {
+    dispatch(AsyncThunks.getUserTweetsByUserId(userId));
   };
 
   useEffect(() => {
-    fetchTweets();
     fetchUserDetails();
-  }, [fetchTweets, fetchUserDetails]);
+  }, [userId]);
 
-  if (!user) return null;
+  useEffect(() => {
+    fetchTweets();
+  }, [tweets]);
 
   return (
     <div className='w-full h-[100vh] overflow-scroll flex flex-col mt-20'>

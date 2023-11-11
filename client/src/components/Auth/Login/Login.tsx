@@ -38,6 +38,7 @@ const Login = () => {
           name='email'
           value={email}
           onChange={handleChange}
+          autoComplete='off'
         />
         <input
           type='password'
@@ -46,12 +47,13 @@ const Login = () => {
           name='password'
           value={password}
           onChange={handleChange}
+          autoComplete='off'
         />
         <button className={styles.formButton}>Login</button>
 
         <p className='text-xs mt-4'>
           Don't have an account?{" "}
-          <Link to={ROUTES.REGISTER} className='border-b border-b-[#444444]'>
+          <Link to={ROUTES.REGISTER} className='border-b border-b-[#436ab4]'>
             Sign Up
           </Link>
         </p>

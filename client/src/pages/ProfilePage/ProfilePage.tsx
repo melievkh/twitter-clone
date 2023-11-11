@@ -27,7 +27,7 @@ const ProfilePage = () => {
 
   useEffect(() => {
     fetchTweets();
-  }, [fetchTweets]);
+  }, []);
 
   const logout = () => {
     logoutUser();
@@ -40,19 +40,19 @@ const ProfilePage = () => {
     <div className='w-full h-[100vh] overflow-scroll flex flex-col'>
       <header className='fixed top-0 w-full h-14 flex items-center p-4 gap-4 backdrop-blur-md'>
         <Link to={ROUTES.HOME}>
-          <BiArrowBack className='text-2xl' />
+          <BiArrowBack className='text-2xl text-[#c4c4c4]' />
         </Link>
 
         <div className='flex flex-col'>
           <h3 className='text-lg'>{user?.fullname}</h3>
-          <p className='text-sm text-[#484848]'> posts</p>
+          <p className='text-sm text-[#484848]'>{tweets.length} posts</p>
         </div>
       </header>
 
       <div className='w-full h-max flex items-center justify-between p-4 mt-20'>
         <RxAvatar className='text-[100px]' />
         <button
-          className='h-8 text-[#db8383] bg-[#efefef] pr-4 pl-4 rounded-xl border border-[#e79999]'
+          className='h-8 text-deleteColor hover:bg-deleteBgColor bg-[#110d0d] pr-4 pl-4 rounded-xl'
           onClick={logout}
         >
           log out
@@ -69,7 +69,7 @@ const ProfilePage = () => {
           If it makes you happy, <br /> make it private
         </p>
         <p className='flex gap-1 items-center'>
-          {/* <AiOutlineCalendar /> {getFormattedMonthAndYear(user?.createt_at)} */}
+          <AiOutlineCalendar /> {getFormattedMonthAndYear(user?.created_at)}
         </p>
       </div>
 

@@ -6,12 +6,13 @@ import "react-toastify/dist/ReactToastify.css";
 import Router from "router/router";
 import { useAppDispatch } from "api/store";
 import { authActions } from "api/store/reducers/slices/authSlice";
-import { getAuthError } from "api/store/selectors";
+import { getAuthError, getIsLoggedIn } from "api/store/selectors";
 import { AsyncThunks } from "api/store/action";
 
 function App() {
   const authError = useSelector(getAuthError);
   const dispatch = useAppDispatch();
+  const isLoggedIn = useSelector(getIsLoggedIn);
 
   const fetchTweets = async () => {
     await dispatch(AsyncThunks.getTweets());
@@ -31,7 +32,7 @@ function App() {
     fetchTweets();
     fetchUsers();
     clearData();
-  }, []);
+  }, [isLoggedIn]);
 
   return (
     <>

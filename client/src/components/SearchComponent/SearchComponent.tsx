@@ -2,7 +2,7 @@ import { HiOutlineSearch } from "react-icons/hi";
 
 import CustomButton from "components/CustomButton";
 import Footer from "components/Layout/Footer";
-import UserList from "components/UserList";
+import UserList from "components/UserList/UserList";
 import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { getUsers } from "api/store/selectors";
@@ -18,12 +18,12 @@ const SearchComponent = () => {
         <input
           type='search'
           placeholder='search...'
-          className='w-[80%] h-[40px] text-[#2a2a2a] p-2 outline-none border-none bg-inherit rounded-[50px] indent-8'
+          className='w-[80%] h-[40px] p-2 outline-none border-none bg-inherit rounded-[50px] indent-8'
         />
       </header>
 
       <div className='w-full flex flex-col gap-6 mt-16 overflow-scroll pl-8'>
-        <div className='w-[80%] bg-[#181818] p-3 flex flex-col gap-2 rounded-2xl'>
+        <div className='w-[80%] bg-[#0e0e12] p-3 flex flex-col gap-2 rounded-2xl'>
           <h1 className='text-2xl'>Subscribe to Premium</h1>
           <p>
             Subscribe to unlock new features and if eligible, receive a share of
@@ -32,7 +32,7 @@ const SearchComponent = () => {
           <CustomButton>Subscribe</CustomButton>
         </div>
 
-        <div className='w-[80%] bg-[#181818] p-3 flex flex-col gap-2 rounded-2xl'>
+        <div className='w-[80%] bg-[#0e0e12] p-3 flex flex-col gap-2 rounded-2xl'>
           <h1 className='text-2xl'>Who to follow</h1>
           <ul>
             {filteredUsers.map((user) => (

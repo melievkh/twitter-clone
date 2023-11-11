@@ -45,7 +45,7 @@ const Tweet = ({ tweet }: Props) => {
           </h2>
           {tweet.user_id === userId && (
             <button
-              className='w-[40px] h-[40px] hover:bg-bgHover flex justify-center items-center rounded-full'
+              className='w-[40px] h-[40px] hover:bg-deleteBgColor flex justify-center items-center rounded-full transition duration-300'
               onClick={() => handleDelete(tweet.id)}
             >
               <AiOutlineDelete className='text-sm text-deleteColor' />
