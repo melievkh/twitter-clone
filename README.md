@@ -17,7 +17,7 @@ cd socket && npm install
 cd server && npm install
 ```
 
-## Make sure that you have .env file in server with values
+### Make sure that you have .env file in server with values
 ACCESS_TOKEN_KEY=57d4e9883231d871baf00977204716aec5d176b5ae06b907b69884873fa9e30d
 REFRESH_TOKEN_KEY=be1dbcca590cd6d33b842c3052cbb5c98f08344ba076b9073e99b45eb8374406
 
