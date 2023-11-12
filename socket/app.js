@@ -18,9 +18,10 @@ io.on("connect", (socket) => {
 
   socket.on("sendMessage", async (data) => {
     const { recipient_id, sender_id, message } = data;
+    console.log(data);
     try {
       await pool.query(
-        "INSERT INTO chat_messages (recipient_id, sender_id, message) VALUES ($1, $2, $3)",
+        "INSERT INTO conversation (recipient_id, sender_id, message) VALUES ($1, $2, $3)",
         [recipient_id, sender_id, message],
       );
     } catch (error) {

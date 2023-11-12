@@ -2,11 +2,13 @@ import Cookies from "js-cookie";
 import { includes } from "lodash";
 import axios, { InternalAxiosRequestConfig } from "axios";
 
-import { COOKIE_KEYS } from "appConstants";
+import { COOKIE_KEYS, BASE_URL } from "appConstants";
 import { refreshTokens } from "./api";
 import endpoints from "./endpoints";
 
-const axiosInstance = axios.create({ baseURL: "http://localhost:4000" });
+const axiosInstance = axios.create({
+  baseURL: BASE_URL,
+});
 
 const endpointsWithoutToken = [endpoints.auth.login, endpoints.auth.register];
 

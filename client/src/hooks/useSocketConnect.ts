@@ -2,16 +2,12 @@ import { useEffect, useRef } from "react";
 import io from "socket.io-client";
 
 const defaultSocketUrl = "http://localhost:4003";
-const defaultSocketOptions = {};
 
-const useSocketSetUp = (
-  url = defaultSocketUrl,
-  options = defaultSocketOptions,
-) => {
+const useSocketSetUp = () => {
   const socketRef = useRef<any>(null);
 
   useEffect(() => {
-    const socket = io(url, options);
+    const socket = io(defaultSocketUrl);
     socketRef.current = socket;
 
     socket.on("connect", () => {
@@ -29,7 +25,7 @@ const useSocketSetUp = (
         socketRef.current.disconnect();
       }
     };
-  }, [url, options]);
+  }, []);
 
   return socketRef.current;
 };

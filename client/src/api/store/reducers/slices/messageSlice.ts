@@ -4,9 +4,7 @@ import { onError, onPending } from "api/store/stateResults";
 import { AsyncThunks } from "api/store/action";
 import { IMessageProps, StateType } from "types";
 
-interface IMessageType extends StateType<any[]> {
-  result: IMessageProps[];
-}
+interface IMessageType extends StateType<IMessageProps[]> {}
 
 const initialState: IMessageType = {
   pending: false,
@@ -19,6 +17,11 @@ const messageSlice = createSlice({
   initialState,
   reducers: {
     reset: () => initialState,
+    addMessage: (state, action) => {
+      const prevMessages = state.result;
+      state.result = [...prevMessages, action.payload];
+      console.log(action.payload);
+    },
     clearError: (state) => {
       state.error = null;
     },

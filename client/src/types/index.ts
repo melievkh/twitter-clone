@@ -29,7 +29,7 @@ export interface IRegisterProps {
 
 export interface StateType<T = any> {
   pending?: boolean;
-  result?: T;
+  result: T;
   error: ErrorResponseType | null;
 }
 

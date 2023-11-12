@@ -7,6 +7,7 @@ const authRoute = require("./src/route/auth.route");
 const usersRoute = require("./src/route/users.route");
 const messageRoute = require("./src/route/messages.route");
 const tweetsRoute = require("./src/route/tweets.route");
+const followRoute = require("./src/route/follows.route");
 const { invalidRoute } = require("./src/error");
 const { verifyAccessToken } = require("./src/middleware/auth.middleware");
 const db = require("./src/queries");
@@ -24,6 +25,7 @@ app.get("/", (req, res) => {
 });
 app.use("/auth", authRoute);
 app.use("/users", verifyAccessToken, usersRoute);
+app.use("/follow", verifyAccessToken, followRoute);
 app.use("/messages", verifyAccessToken, messageRoute);
 app.use("/tweets", verifyAccessToken, tweetsRoute);
 app.use("/*", invalidRoute);

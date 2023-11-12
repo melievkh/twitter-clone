@@ -10,6 +10,10 @@ import ChatHeader from "./ChatHeader/ChatHeader";
 import { AsyncThunks } from "api/store/action";
 import { useAppDispatch } from "api/store";
 import { IMessageProps } from "types";
+import {
+  messageActions,
+  messageReducer,
+} from "api/store/reducers/slices/messageSlice";
 
 const ChatRoom = () => {
   const messages: IMessageProps[] = useSelector(getMessages);
@@ -21,7 +25,8 @@ const ChatRoom = () => {
 
   // connect to socket
   const socket = useSocketSetUp();
-  const messageListRef = useRef<any>(null);
+  const messageListRef = useRef<HTMLDivElement>(null);
+  const messageBottomRef = useRef<HTMLDivElement>(null);
 
   const fetchRecipientUserDetails = async () => {
     await dispatch(AsyncThunks.getUser(recipientId));
@@ -39,6 +44,7 @@ const ChatRoom = () => {
         message: newMessage,
       };
       socket.emit("sendMessage", messageData);
+      // dispatch(messageActions.addMessage(messageData));
       setNewMessage("");
     }
   };
@@ -52,13 +58,19 @@ const ChatRoom = () => {
     if (messageListRef.current) {
       messageListRef.current.scrollTop = messageListRef.current.scrollHeight;
     }
+    if (messageBottomRef.current) {
+      messageBottomRef.current.scrollIntoView({ behavior: "smooth" });
+    }
   }, [messages]);
 
   return (
     <div className='w-full h-full flex flex-col bg-bgColor'>
       <ChatHeader recipientUser={recipientUser} />
 
-      <div className='w-full h-fit overflow-scroll sm:mt-0 mt-12 mb-14'>
+      <div
+        ref={messageListRef}
+        className='w-full flex-1 overflow-y-scroll sm:mt-0 mt-12'
+      >
         <ul className='p-2 h-fit'>
           {messages.map((message) => (
             <Message
@@ -67,6 +79,7 @@ const ChatRoom = () => {
               recipientId={recipientId}
             />
           ))}
+          <div ref={messageBottomRef} />
         </ul>
       </div>
 

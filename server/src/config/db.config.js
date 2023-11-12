@@ -1,11 +1,13 @@
 const { Pool } = require("pg");
+const { DB } = require("../constants");
+require("dotenv").config();
 
 const pool = new Pool({
-  user: "postgres",
-  host: "localhost",
-  database: "twit_server",
-  password: "21222324",
-  port: 5432,
+  user: DB.user,
+  host: DB.host,
+  database: DB.name,
+  password: DB.password,
+  port: DB.port,
 });
 
 async () => {

@@ -5,6 +5,7 @@ const db = {
     try {
       // delete users table;
       // await pool.query(`DROP TABLE users CASCADE;`);
+
       await pool.query(`
             CREATE TABLE IF NOT EXISTS users(
               id VARCHAR(200) PRIMARY KEY,
@@ -31,14 +32,25 @@ const db = {
       // delete chat_messages table;
       // await pool.query(`DROP TABLE chat_messages;`);
 
-      await pool.query(`CREATE TABLE IF NOT EXISTS chat_messages (
-            id SERIAL PRIMARY KEY,
+      await pool.query(`CREATE TABLE IF NOT EXISTS conversation (
+            id BIGSERIAL PRIMARY KEY,
             sender_id VARCHAR(200) REFERENCES users(id) NOT NULL,
             recipient_id VARCHAR(200) REFERENCES users(id) NOT NULL,
             message TEXT NOT NULL,
             timestamp TIMESTAMPTZ DEFAULT NOW()
             );
          `);
+
+      // delete user_follow table
+      // await pool.query(`DROP TABLE follow;`);
+
+      await pool.query(`CREATE TABLE IF NOT EXISTS follow (
+          id SERIAL PRIMARY KEY,
+          follower_id VARCHAR(200) REFERENCES users(id) NOT NULL,
+          following_id VARCHAR(200) REFERENCES users(id) NOT NULL,
+          timestamp TIMESTAMPTZ DEFAULT NOW()
+          );
+       `);
     } catch (error) {
       console.log(error);
     }
@@ -72,8 +84,13 @@ const db = {
 
   registerUser: async (id, username, fullname, email, password) => {
     const insertUserQuery = `INSERT INTO users (id, username, fullname, email, password) VALUES ($1, $2, $3, $4, $5) RETURNING *`;
-    const values = [id, username, fullname, email, password];
-    const user = await pool.query(insertUserQuery, values);
+    const user = await pool.query(insertUserQuery, [
+      id,
+      username,
+      fullname,
+      email,
+      password,
+    ]);
 
     return user.rows[0];
   },
@@ -94,25 +111,43 @@ const db = {
 
   createTweet: async (caption, user_id) => {
     const insertTweetQuery = `INSERT INTO tweets (caption, user_id) VALUES ($1, $2) RETURNING *`;
-    const values = [caption, user_id];
-    const tweets = await pool.query(insertTweetQuery, values);
+    const tweets = await pool.query(insertTweetQuery, [caption, user_id]);
     return tweets.rows[0];
   },
 
   deleteTweet: async (id) => {
     const insertTweetQuery = `DELETE FROM tweets WHERE id = $1`;
-    const values = [id];
-    await pool.query(insertTweetQuery, values);
+    await pool.query(insertTweetQuery, [id]);
   },
 
   // get messages query
 
   getMessages: async (sender_id, recipient_id) => {
-    const messages = await pool.query(
-      "SELECT * FROM chat_messages WHERE (sender_id = $1 AND recipient_id = $2) OR (sender_id = $2 AND recipient_id = $1)",
-      [sender_id, recipient_id],
-    );
+    const messageQuery = `SELECT * FROM conversation WHERE (sender_id = $1 AND recipient_id = $2) OR (sender_id = $2 AND recipient_id = $1)`;
+    const messages = await pool.query(messageQuery, [sender_id, recipient_id]);
+    return messages.rows;
+  },
 
+  // user follow queries
+
+  createFollowRequest: async (follower_id, following_id) => {
+    const createFollowWuery = `INSERT INTO follow (follower_id, following_id) VALUES ($1, $2)`;
+    const message = await pool.query(createFollowWuery, [
+      follower_id,
+      following_id,
+    ]);
+    return message.rows[0];
+  },
+
+  getFollowers: async (userId) => {
+    const getFollowersQuery = `SELECT * FROM follow WHERE following_id = $1`;
+    const messages = await pool.query(getFollowersQuery, [userId]);
+    return messages.rows;
+  },
+
+  getFollowings: async (userId) => {
+    const getFollowingsQuery = `SELECT * FROM follow WHERE following_id = $1`;
+    const messages = await pool.query(getFollowingsQuery, [userId]);
     return messages.rows;
   },
 };

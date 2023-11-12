@@ -10,6 +10,9 @@ import { getAuthError, getIsLoggedIn } from "api/store/selectors";
 import { AsyncThunks } from "api/store/action";
 import { useNavigate } from "react-router-dom";
 import ROUTES from "router/routes";
+import { refreshTokens } from "api/axios/api";
+import Cookies from "js-cookie";
+import { COOKIE_KEYS } from "appConstants";
 
 function App() {
   const dispatch = useAppDispatch();
@@ -26,7 +29,9 @@ function App() {
   };
 
   const clearData = () => {
-    if (isLoggedIn === false) {
+    const refreshToken = Cookies.get(COOKIE_KEYS.REFRESH_TOKEN);
+
+    if (isLoggedIn && !refreshToken) {
       dispatch(authActions.reset());
       navigate(ROUTES.LOGIN);
     }
