@@ -71,7 +71,8 @@ export interface IMessagesProps {
   user_id: string;
 }
 
-export interface IMessageType {
+export interface IMessageProps {
+  id?: string;
   sender_id: string;
   recipient_id?: any;
   message: string;

@@ -16,9 +16,7 @@ const endpoints = {
   },
 
   messages: {
-    messages: "/messages",
-    create: "/messages/create",
-    getByUser: (userId: string) => `/messages/${userId}`,
+    messages: (recepient_id: string) => `/messages/${recepient_id}`,
   },
 };
 

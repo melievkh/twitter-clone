@@ -104,6 +104,17 @@ const db = {
     const values = [id];
     await pool.query(insertTweetQuery, values);
   },
+
+  // get messages query
+
+  getMessages: async (sender_id, recipient_id) => {
+    const messages = await pool.query(
+      "SELECT * FROM chat_messages WHERE (sender_id = $1 AND recipient_id = $2) OR (sender_id = $2 AND recipient_id = $1)",
+      [sender_id, recipient_id],
+    );
+
+    return messages.rows;
+  },
 };
 
 module.exports = db;

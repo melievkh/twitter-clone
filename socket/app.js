@@ -14,7 +14,7 @@ const io = socketIo(server, {
 });
 
 io.on("connect", (socket) => {
-  console.log("Socket connected:", socket.id);
+  console.log("Socket connected");
 
   socket.on("sendMessage", async (data) => {
     const { recipient_id, sender_id, message } = data;
@@ -23,41 +23,18 @@ io.on("connect", (socket) => {
         "INSERT INTO chat_messages (recipient_id, sender_id, message) VALUES ($1, $2, $3)",
         [recipient_id, sender_id, message],
       );
-
-      const result = await pool.query(
-        "SELECT * FROM chat_messages WHERE (sender_id = $1 AND recipient_id = $2) OR (sender_id = $2 AND recipient_id = $1)",
-        [sender_id, recipient_id],
-      );
-
-      const storedMessages = result.rows;
-
-      io.to(recipient_id).emit("storedMessages", storedMessages);
     } catch (error) {
       console.error("Error storing message:", error);
     }
   });
 
-  socket.on("joinRoom", (recipientId) => {
-    socket.join(recipientId);
-  });
-
-  socket.on("getStoredMessages", async (data) => {
-    const { recipient_id, sender_id } = data;
-    try {
-      const result = await pool.query(
-        "SELECT * FROM chat_messages WHERE recipient_id = $1 AND sender_id = $2",
-        [recipient_id, sender_id],
-      );
-      const storedMessages = result.rows;
-
-      io.to(socket.id).emit("storedMessages", storedMessages);
-    } catch (error) {
-      console.error("Error retrieving stored messages:", error);
-    }
-  });
+  // socket.on("joinRoom", (recipientId) => {
+  //   console.log("joined to room");
+  //   socket.join(recipientId);
+  // });
 
   socket.on("disconnect", () => {
-    console.log("Socket disconnected:", socket.id);
+    console.log("Socket disconnected");
   });
 });
 

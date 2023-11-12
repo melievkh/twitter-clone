@@ -3,35 +3,14 @@ const db = require("../queries");
 
 const getMessages = async (req, res) => {
   try {
-    const messages = await db.getMessages();
+    const { userId: sender_id } = req;
+    const { recipient_id } = req.params;
+
+    const messages = await db.getMessages(sender_id, recipient_id);
     res.status(200).json(messages);
   } catch (error) {
     errorHandler(error, req, res);
   }
 };
 
-const createMessage = async (req, res) => {
-  try {
-    const { recipientId, message } = req.body;
-    const userId = req.userId;
-    const createdMessage = await db.createMessage(userId, recipientId, message);
-    res.status(201).json(createdMessage);
-  } catch (error) {
-    errorHandler(error, req, res);
-  }
-};
-
-const getByUserId = async (req, res) => {
-  try {
-    const { id } = req.params;
-    const foundMessages = await db.getMessagesByUserId(id);
-    if (!foundMessages) {
-      throw new CustomError("No messages found!", 404);
-    }
-    res.status(200).json(foundMessages);
-  } catch (error) {
-    errorHandler(error, req, res);
-  }
-};
-
-module.exports = { createMessage, getMessages, getByUserId };
+module.exports = { getMessages };

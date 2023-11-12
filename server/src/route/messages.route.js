@@ -1,13 +1,7 @@
-const {
-  getMessages,
-  createMessage,
-  getByUserId,
-} = require("../controller/message.controller");
-
 const router = require("express").Router();
 
-router.get("/", getMessages);
-router.post("/create", createMessage);
-router.get("/:id", getByUserId);
+const { getMessages } = require("../controller/message.controller");
+
+router.get("/:recipient_id", getMessages);
 
 module.exports = router;

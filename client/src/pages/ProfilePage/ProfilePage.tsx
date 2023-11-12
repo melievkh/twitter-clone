@@ -1,21 +1,21 @@
 import { useEffect } from "react";
+import { useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import { AiOutlineCalendar } from "react-icons/ai";
 import { BiArrowBack } from "react-icons/bi";
-import { useSelector } from "react-redux";
 import { RxAvatar } from "react-icons/rx";
 
 import ROUTES from "router/routes";
 import useAuth from "hooks/useAuth";
 import Tweet from "components/Twit/Twit";
-import { getUser, getUserId, getuserTweets } from "api/store/selectors";
 import { useAppDispatch } from "api/store";
 import { AsyncThunks } from "api/store/action";
 import { getFormattedMonthAndYear } from "utils/date";
+import { getLoggedUser, getUserId, getuserTweets } from "api/store/selectors";
 
 const ProfilePage = () => {
   const navigate = useNavigate();
-  const user = useSelector(getUser);
+  const user = useSelector(getLoggedUser);
   const userId = useSelector(getUserId);
   const tweets = useSelector(getuserTweets);
   const dispatch = useAppDispatch();
