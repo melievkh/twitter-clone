@@ -12,10 +12,10 @@ git clone https://github.com/melievkh/twitter-clone.git
 
 ### Server and Client
 
-In order to run both server and client side, use command:
+In order to run server, socket and client side, use command:
 
 ```sh
-npm run dev
+npm run all
 ```
 
 Your app should now be running on [localhost:3000](http://localhost:3000/).
