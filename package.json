@@ -4,10 +4,10 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "dev": "concurrently \"npm run dev:client\" \"npm run dev:server\" \"npm run dev:socket\"",
     "dev:client": "cd client && npm start",
     "dev:server": "cd server && npm run dev",
     "dev:socket": "cd socket && npm run dev",
+    "all": "concurrently \"npm run dev:client\" \"npm run dev:server\" \"npm run dev:socket\"",
     "format": "prettier --write ."
   },
   "keywords": [],
