@@ -1,3 +1,4 @@
+import { debounce } from "lodash";
 import { useSelector } from "react-redux";
 import { useState, useEffect } from "react";
 import { BiArrowBack } from "react-icons/bi";
@@ -13,9 +14,8 @@ import { IMessageType } from "types";
 import socket from "socket";
 
 const ChatRoom = () => {
-  const [messages, setMessages] = useState<IMessageType[]>([]);
-  const [isSocketConnected, setIsSocketConnected] = useState<boolean>(false);
   const [newMessage, setNewMessage] = useState<string>("");
+  const [messages, setMessages] = useState<IMessageType[]>([]);
   const { userId: recipientId }: any = useParams();
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
@@ -30,17 +30,27 @@ const ChatRoom = () => {
     fetchRecipientUserDetails();
   }, []);
 
-  // Connect to socket
-
+  // Connect to socket and get stored messages
   useEffect(() => {
     socket.connect();
-    socket.on("connect", () => {
-      setIsSocketConnected(true);
-    });
 
-    // return () => {
-    //   socket.disconnect();
-    // };
+    const handleConnect = () => {
+      console.log(socket.connected);
+    };
+
+    const handleStoredMessages = (storedMessages: IMessageType[]) => {
+      console.log("Received stored messages:", storedMessages);
+      setMessages(storedMessages);
+    };
+
+    socket.on("connect", handleConnect);
+    socket.on("storedMessages", handleStoredMessages);
+
+    return () => {
+      socket.off("connect", handleConnect);
+      socket.off("storedMessages", handleStoredMessages);
+      socket.disconnect();
+    };
   }, []);
 
   // Join room
@@ -49,25 +59,11 @@ const ChatRoom = () => {
     socket.emit("joinRoom", recipientId);
 
     return () => {};
-  }, [recipientId]);
-
-  // get messages history
+  }, []);
 
   useEffect(() => {
-    const handleStoredMessages = (storedMessages: IMessageType[]) => {
-      setMessages(storedMessages);
-    };
-
-    if (isSocketConnected) {
-      socket.on("storedMessages", handleStoredMessages);
-
-      return () => {
-        socket.off("storedMessages", handleStoredMessages);
-      };
-    }
-  }, [isSocketConnected]);
-
-  // send message
+    console.log(messages, "messages");
+  }, [messages]);
 
   const sendPrivateMessage = (e: any) => {
     e.preventDefault();
@@ -81,6 +77,8 @@ const ChatRoom = () => {
       setNewMessage("");
     }
   };
+
+  const debouncedSendPrivateMessage = debounce(sendPrivateMessage, 300);
 
   return (
     <div className='w-full h-full flex flex-col bg-bgColor'>
@@ -96,7 +94,7 @@ const ChatRoom = () => {
       </header>
 
       <div className='w-full h-fit overflow-scroll sm:mt-0 mt-12 mb-14'>
-        <ul className='p-2'>
+        <ul className='p-2 h-fit'>
           {messages.map((message, index) => (
             <Message key={index} {...message} />
           ))}
@@ -113,6 +111,7 @@ const ChatRoom = () => {
           className='w-[70%] h-10 text-sm indent-2 rounded-2xl border border-borderColor outline-none bg-inherit'
           value={newMessage}
           onChange={(e) => setNewMessage(e.target.value)}
+          onBlur={debouncedSendPrivateMessage}
         />
 
         <button className='w-[40px] h-[40px] hover:bg-bgHover flex justify-center items-center rounded-full transition duration-300'>

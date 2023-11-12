@@ -27,22 +27,21 @@ const Message = (message: IMessageType) => {
   }, []);
 
   return (
-    <div>
-      <li className='mb-2 flex items-end justify-start gap-1'>
-        <div className='flex-shrink-0 w-8 h-8 ml-2 rounded-full bg-[#545bc1]'></div>
-        <div className='bg-bgHover p-2 rounded-md min-w-[100px]'>
-          <h1 className='font-bold text-sm'>{sender_id}</h1>
-          <p className='text-xs'>{messageContent}</p>
-          <div className='text-[8px] text-[#c1c1c1] text-right'>
-            {new Date(timestamp).toLocaleTimeString(undefined, {
-              hour: "2-digit",
-              minute: "2-digit",
-              hour12: false,
-            })}
-          </div>
+    <li className='mb-2 h-fit flex items-end justify-start gap-1'>
+      <div className='flex-shrink-0 w-8 h-8 ml-2 rounded-full bg-[#545bc1]'></div>
+
+      <div className='bg-bgHover p-2 rounded-md min-w-[60px] h-auto'>
+        <h1 className='font-bold text-sm'>{sender_id}</h1>
+        <p className='text-xs'>{messageContent}</p>
+        <div className='text-[8px] text-[#c1c1c1] text-right'>
+          {new Date(timestamp).toLocaleTimeString(undefined, {
+            hour: "2-digit",
+            minute: "2-digit",
+            hour12: false,
+          })}
         </div>
-      </li>
-    </div>
+      </div>
+    </li>
   );
 };
 

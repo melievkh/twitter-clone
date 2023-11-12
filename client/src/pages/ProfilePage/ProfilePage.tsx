@@ -81,7 +81,7 @@ const ProfilePage = () => {
       </div>
 
       {/* User posts */}
-      <div className='w-full'>
+      <div className='w-full mb-20'>
         <div className='w-full h-16 flex justify-center items-center border-b border-b-borderColor hover:bg-bgHover transition duration-500'>
           <h1 className='text-xl'>My Posts</h1>
         </div>

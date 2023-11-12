@@ -33,9 +33,9 @@ const login = async (req, res) => {
 const register = async (req, res) => {
   try {
     const { username, fullname, email, password } = req.body;
-    const foundUser = await db.getUserByEmail(email);
+    const foundUser = await db.getUniqueUser(email, username);
     if (foundUser) {
-      throw new CustomError("This email has already been used!", 400);
+      throw new CustomError("Try another username or email!", 400);
     }
 
     const userId = crypto.randomBytes(16).toString("hex");

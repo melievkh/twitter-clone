@@ -6,13 +6,15 @@ import "react-toastify/dist/ReactToastify.css";
 import Router from "router/router";
 import { useAppDispatch } from "api/store";
 import { authActions } from "api/store/reducers/slices/authSlice";
-import { getAuthError, getIsLoggedIn } from "api/store/selectors";
+import { getIsLoggedIn } from "api/store/selectors";
 import { AsyncThunks } from "api/store/action";
+import { useNavigate } from "react-router-dom";
+import ROUTES from "router/routes";
 
 function App() {
-  const authError = useSelector(getAuthError);
   const dispatch = useAppDispatch();
   const isLoggedIn = useSelector(getIsLoggedIn);
+  const navigate = useNavigate();
 
   const fetchTweets = async () => {
     await dispatch(AsyncThunks.getTweets());
@@ -23,8 +25,9 @@ function App() {
   };
 
   const clearData = () => {
-    if (authError?.message === "Unauthorized") {
+    if (isLoggedIn === false) {
       dispatch(authActions.reset());
+      navigate(ROUTES.LOGIN);
     }
   };
 

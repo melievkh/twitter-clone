@@ -5,11 +5,13 @@ import { Link } from "react-router-dom";
 import Footer from "components/Layout/Footer";
 import CustomButton from "components/CustomButton";
 import UserList from "components/UserList/UserList";
-import { getUsers } from "api/store/selectors";
+import { getUserId, getUsers } from "api/store/selectors";
 
 const SearchComponent = () => {
   const users = useSelector(getUsers);
-  const filteredUsers = users.slice(0, 6);
+  const userId = useSelector(getUserId);
+  const suggestedUsers = users?.filter((user) => user.id !== userId);
+  const filteredUsers = suggestedUsers.slice(0, 6);
 
   return (
     <div className='w-full relative overflow-scroll h-full border-l border-l-borderColor'>

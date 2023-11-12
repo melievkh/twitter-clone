@@ -17,7 +17,7 @@ const HomePage = () => {
         <Header />
       </div>
 
-      <div className='w-full flex flex-col items-center justify-between mt-20 bg-bgColor'>
+      <div className='w-full flex flex-col items-center justify-between mt-6 bg-bgColor'>
         <div className='w-full'>
           <AddTweet />
         </div>

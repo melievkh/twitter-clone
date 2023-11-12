@@ -1,6 +1,7 @@
-const express = require("express");
 const http = require("http");
+const express = require("express");
 const socketIo = require("socket.io");
+
 const pool = require("../server/src/config/db.config");
 
 const app = express();
@@ -30,7 +31,6 @@ io.on("connect", (socket) => {
 
       const storedMessages = result.rows;
 
-      socket.emit("storedMessages", storedMessages);
       io.to(recipient_id).emit("storedMessages", storedMessages);
     } catch (error) {
       console.error("Error storing message:", error);
@@ -56,14 +56,12 @@ io.on("connect", (socket) => {
     }
   });
 
-  socket.join(`user:${socket.id}`);
-
   socket.on("disconnect", () => {
     console.log("Socket disconnected:", socket.id);
   });
 });
 
-const socketPort = process.env.SOCKET_PORT | 4003;
+const socketPort = process.env.SOCKET_PORT || 4003;
 server.listen(socketPort, () => {
   console.log(`Socket.IO server listening on port ${socketPort}`);
 });

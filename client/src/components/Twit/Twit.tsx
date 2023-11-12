@@ -24,6 +24,7 @@ const Tweet = ({ tweet }: Props) => {
   const handleDelete = async (id: any) => {
     await dispatch(AsyncThunks.deleteTweet(id));
     toast.success("Deleted successfully!");
+    window.location.reload();
   };
 
   return (

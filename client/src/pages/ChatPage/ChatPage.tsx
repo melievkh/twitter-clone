@@ -3,10 +3,12 @@ import { useSelector } from "react-redux";
 
 import UserList from "components/UserList/UserList";
 import Footer from "components/Layout/Footer";
-import { getUsers } from "api/store/selectors";
+import { getUserId, getUsers } from "api/store/selectors";
 
 const ChatPage = () => {
+  const userId = useSelector(getUserId);
   const users = useSelector(getUsers);
+  const suggestedPeople = users?.filter((user) => user.id !== userId);
 
   return (
     <div className='w-full'>
@@ -16,7 +18,7 @@ const ChatPage = () => {
 
       <ul className='w-full h-max p-4 overflow-scroll  bg-bgColor'>
         <h1 className='sm:text-lg text-sm'>Suggested people</h1>
-        {users?.map((user) => (
+        {suggestedPeople?.map((user) => (
           <li key={user.id}>
             <Link to={`/chat/${user.id}`}>
               <UserList key={user.id} user={user} />

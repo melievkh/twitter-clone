@@ -3,7 +3,8 @@ const pool = require("./config/db.config");
 const db = {
   initDatabase: async () => {
     try {
-      // await pool.query(`DROP TABLE users;`);
+      // delete users table;
+      // await pool.query(`DROP TABLE users CASCADE;`);
       await pool.query(`
             CREATE TABLE IF NOT EXISTS users(
               id VARCHAR(200) PRIMARY KEY,
@@ -14,7 +15,7 @@ const db = {
               created_at TIMESTAMPTZ DEFAULT NOW(),
               UNIQUE (email));
           `);
-
+      // delete tweets table;
       // await pool.query(`DROP TABLE tweets;`);
 
       await pool.query(`
@@ -27,6 +28,7 @@ const db = {
               );
           `);
 
+      // delete chat_messages table;
       // await pool.query(`DROP TABLE chat_messages;`);
 
       await pool.query(`CREATE TABLE IF NOT EXISTS chat_messages (
@@ -42,6 +44,8 @@ const db = {
     }
   },
 
+  // users queries
+
   getUsers: async () => {
     const getUsersQuery = `SELECT * FROM users;`;
     const users = await pool.query(getUsersQuery);
@@ -54,10 +58,16 @@ const db = {
     return users.rows[0];
   },
 
+  getUniqueUser: async (email, username) => {
+    const getUniqueUserQuery = `SELECT * FROM users WHERE email = $1 AND username = $2;`;
+    const result = await pool.query(getUniqueUserQuery, [email, username]);
+    return result.rows[0];
+  },
+
   getUserByEmail: async (email) => {
     const getUserByEmailQuery = `SELECT * FROM users WHERE email = $1;`;
-    const users = await pool.query(getUserByEmailQuery, [email]);
-    return users.rows[0];
+    const result = await pool.query(getUserByEmailQuery, [email]);
+    return result.rows[0];
   },
 
   registerUser: async (id, username, fullname, email, password) => {
@@ -68,7 +78,7 @@ const db = {
     return user.rows[0];
   },
 
-  // tweets
+  // tweets queries
 
   getTweets: async () => {
     const getTweetQuery = `SELECT tweets.*, users.username, users.fullname FROM tweets JOIN users ON tweets.user_id = users.id;`;
@@ -93,34 +103,6 @@ const db = {
     const insertTweetQuery = `DELETE FROM tweets WHERE id = $1`;
     const values = [id];
     await pool.query(insertTweetQuery, values);
-  },
-
-  // chat messages
-
-  createMessage: async (senderId, recipientId, message) => {
-    const messageValues = `INSERT INTO chat_messages (sender_id, recipient_id, message) VALUES ($1, $2, $3) RETURNING *`;
-    const response = await pool.query(messageValues, [
-      senderId,
-      recipientId,
-      message,
-    ]);
-
-    return response.rows[0];
-  },
-
-  getMessages: async () => {
-    const messages = await pool.query(`SELECT * FROM chat_messages;`);
-
-    return messages.rows;
-  },
-
-  getMessagesByUserId: async (userId) => {
-    const result = await pool.query(
-      `SELECT * FROM chat_messages WHERE sender_id = $1 OR recipient_id = $1`,
-      [userId],
-    );
-
-    return result.rows;
   },
 };
 

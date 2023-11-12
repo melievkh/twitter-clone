@@ -12,5 +12,3 @@ export const getTweetsError = (state: RootState) => state.tweetsReducer.error;
 export const getTweets = (state: RootState) => state.tweetsReducer.result;
 export const getuserTweets = (state: RootState) =>
   state.tweetsReducer.userTweets;
-
-export const getMessages = (state: RootState) => state.messagesReducer.result;

@@ -10,7 +10,7 @@ export default interface ITweetProps {
 
 export interface IButtonProps {
   children: any;
-  onclick?: () => void;
+  onclick?: any;
   className?: any;
 }
 
